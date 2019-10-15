@@ -1,3 +1,18 @@
+```
+pip install virtualenv
+virtualenv -p /usr/bin/python2.7 venv   ## create a new virtual environment with python 2.7
+source venv/bin/activate    ## enter virtual environment
+pip install boto3     ## use functions for Amazon Mechanical Turk (AMT)
+pip install jupyter     ## use example jupyter notework for uploading assignments and organizing data
+jupyter notebook
+```
+
+Then go to `Uploader and Downloader.ipynb`. If the `print(sys.version)` output is 3.*, you can change the Kernel to 2.7 by clicking on the menu bar: Kernel > Change kernel > Python 2.
+
+
+
+
+
 # show-and-tell-data-collector
 A general frame work for collecting instructions and demonstrations data through Amazon Mechanical Turk
 
