@@ -1,0 +1,745 @@
+<!doctype html>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>Drag and Drop</title>
+
+    <form style="display: none;" id="Mechanictitleurk_SubmissionForm"
+        action="https://www.mturk.com/mturk/externalSubmit" method="post">
+        <input type="text" name="submission_data" id="submission_data" value="">
+        <input type="text" name="assignmentId" id="assignmentId" value="">
+        <input type="text" name="hitId" id="hitId" value="">
+    </form>
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="jquery.ui.rotatable.js"></script>
+
+    <style>
+        img { max-width: 100%; max-height: 500px; }
+        .column {float: left; width: 40%; margin: 10px 0.5%; box-sizing: border-box;}
+        .row::after { content: ""; clear: both; display: table; text-align: center; padding-left:10%;}
+        h1 {text-align: center; padding-top: 10px;}
+        #containment-wrapper { margin: 0 auto; width: 448px; height:448px; border:2px solid #ccc; padding: 10px; position: relative;}
+        #next_button { margin: 10px auto; width: 100px; height:40px; font-size: 18px; text-align: center; }
+        #previous_button { margin: 10px auto; width: 100px; height:40px; font-size: 18px; text-align: center; visibility: hidden;}
+        .ok_button { font-size : 22px; width: 30%; height: 60px; text-align: center; margin: 10px auto; display: table;}
+        .instructions_splash { position: fixed; top:50%; left:50%; width:60%; background-color:#E4E4E4; transform:translate(-50%,-50%); border-style:solid; border-color:gray; border-width:3px; z-index: 70; font-size: 26px; padding: 50px;}
+        .icon { position: absolute; top: 0px; left: 0px;}
+        .ui-rotatable-handle { height: 12px; width: 12px; cursor: pointer;
+          background-image: url(rotate.png); background-size: 100%; margin-left: 0px; left: 0px; bottom: 0px;}
+    </style>
+
+</head>
+
+<body>
+
+
+    <div id='instructions_splash_5' class="instructions_splash">
+        <p style='padding-left:5%; '>
+
+            In the end, the objects should be arranged somewhat like this:
+
+            <div style="margin:8px auto; width: 350px">
+              <img src="https://s3.amazonaws.com/nusrls/tutorial/9+table+4.jpg"/>
+            </div>
+
+        </p>
+
+        <div style='display: flex; justify-content: center;'>
+          <button type="button" id='start_button_5' class="ok_button"><strong>Ok, I am ready!</strong></button>
+        </div>
+    </div>
+
+
+
+
+    <div id='instructions_splash_4' class="instructions_splash">
+        <p style='padding-left:5%; '>
+            <br><br>Rotate an object by dragging the purple icon below the object.
+            <div style="margin:8px auto; width:300px; height:auto;">
+              <img src="https://s3.amazonaws.com/nusrls/rotate.gif"/>
+            </div>
+        </p>
+
+        <div style='display: flex; justify-content: center;'>
+          <button type="button" id='start_button_4' class="ok_button"><strong>I understand</strong></button>
+        </div>
+    </div>
+
+
+
+
+
+
+    <div id='instructions_splash_3' class="instructions_splash">
+        <p style='padding-left:5%; '>
+
+            Sometimes, the instruction can be inaccurate and imprecise. Please use your experience and wisdom to set up the table properly so our robots can learn better :)
+
+            <br><br> In the <font style="color:#3EA6CC;"><strong>Left video</strong></font> you can see an imprecise instruction. We wish you to set up like the <font style="color:coral;"><strong>Right video</strong></font>.
+            <div>
+              <div class="row">
+                <div class="column" style="padding:8px; padding-bottom:4px; background-color: #3EA6CC; width: 46%; margin:0; margin-right:3%;">
+                  <img src="https://s3.amazonaws.com/nusrls/tutorial/21+why+previous+-+wrong+new.gif"/>
+                </div>
+                <div class="column" style="padding:8px; padding-bottom:4px; background-color: coral; width: 46%; margin:0;">
+                  <img src="https://s3.amazonaws.com/nusrls/tutorial/21+why+previous+-+right.gif"/>
+                </div>
+              </div>
+            </div>
+
+        </p>
+
+        <div style='display: flex; justify-content: center;'>
+          <button type="button" id='start_button_3' class="ok_button"><strong>I understand</strong></button>
+        </div>
+    </div>
+
+
+
+
+    <div id='instructions_splash_2' class="instructions_splash">
+        <p style='padding-left:5%; '>
+
+            Note that you should not only meet the requirements in the instructions, but set up the table properly and smartly.
+
+            <br><br> For example, in a proper table-setting, <font color="red"><strong>objects should be close together</strong></font> and <strong><font style="color:#3EA6CC;">close to the bottom edge of the table</font></strong> so that it's easier for eating.
+
+            <div style="margin:8px auto; ">
+              <img src="https://s3.amazonaws.com/nusrls/tutorial/9+table+2.jpg"/>
+            </div>
+
+        </p>
+
+        <div style='display: flex; justify-content: center;'>
+          <button type="button" id='start_button_2' class="ok_button"><strong>I understand</strong></button>
+        </div>
+    </div>
+
+
+
+
+    <div id='instructions_splash_12' class="instructions_splash">
+        <p style='padding-left:5%; '>
+
+            Once you clicked <strong>'Next'</strong>, the objects you have put on table will be locked.
+
+            <br><br> You can click <strong>'Previous'</strong> to go back to the previous frames to revise your move.
+
+            <div style="margin:8px auto; width: 350px">
+              <img src="https://s3.amazonaws.com/nusrls/tutorial/12+previous.gif"/>
+            </div>
+
+        </p>
+
+        <div style='display: flex; justify-content: center;'>
+          <button type="button" id='start_button_12' class="ok_button"><strong>I understand</strong></button>
+        </div>
+    </div>
+
+
+
+
+    <div id='instructions_splash_11' class="instructions_splash">
+        <p style='padding-left:5%; '>
+
+            Here are come tips for you to work on the interface.
+
+            <br><br> When your <strong><font style="color:red;">mouse moves over an object</font></strong>, its name will be shown at your mouse tip, and also <font color="red"><strong>highlighted in red on the right of the table</strong></font>.
+
+            <br><br> <strong><font style="color:#3EA6CC;">If you do not see the object mentioned in the instruction</font></strong>, you can use the most likely one to replace it. (e.g., use "bread plate" to replace "salad plate")
+
+            <div style="margin:8px auto; width: 350px">
+              <img src="https://s3.amazonaws.com/nusrls/tutorial/11+objects.gif"/>
+            </div>
+
+        </p>
+
+        <div style='display: flex; justify-content: center;'>
+          <button type="button" id='start_button_11' class="ok_button"><strong>I understand</strong></button>
+        </div>
+    </div>
+
+
+
+
+    <div id='instructions_splash_02' class="instructions_splash">
+        <p style='padding-left:5%; '>
+
+            Your movement will be recorded so the robot can learn how to set up a dinner table in an simulated envirnment.
+
+            <div style="margin:8px auto; ">
+              <img src="https://s3.amazonaws.com/nusrls/purpose.png"/>
+            </div>
+
+        </p>
+
+        <div style='display: flex; justify-content: center;'>
+          <button type="button" id='start_button_02' class="ok_button"><strong>That's Great!</strong></button>
+        </div>
+    </div>
+
+
+
+
+
+    <div id='instructions_splash_01' class="instructions_splash">
+        <p style='padding-left:5%; '>
+
+            Your task is to <font color="red"><strong>drag-and-drop objects onto the brown table cloth according to instructions</strong></font> given on the top of the page.
+
+            <br><br> On the page, you can see <font style="color:#3EA6CC;"><strong>an animation of the before-after images above the right arrow</strong></font>. It will help you understand the action faster.
+
+            <div style="margin:8px auto; width: 350px">
+              <img src="https://s3.amazonaws.com/nusrls/tutorial/22+why+previous+-+right+new.gif"/>
+            </div>
+
+        </p>
+
+        <div style='display: flex; justify-content: center;'>
+          <button type="button" id='start_button_01' class="ok_button"><strong>I understand</strong></button>
+        </div>
+    </div>
+
+
+
+    <div id='instructions_splash_00' class="instructions_splash">
+        <p >
+            Welcome! You will contribute to our research that <font color="red"><strong>teaches this robot to set up a dinner table</strong></font>.
+            <div style="margin: auto; width: 80%;">
+              <img src="https://s3.amazonaws.com/nusrls/tutorial/00+meet+MICO.gif"/>
+            </div>
+            <br>We will first give you a two-minute tutorial of how to do that ;)
+        </p>
+
+        <div style='display: flex; justify-content: center;'>
+          <button type="button" id='start_button_00' class="ok_button" width="700px"><strong>Ok, show me how I can contribute</strong></button>
+          <button type="button" id='start_button_all' class="ok_button" width="700px"><strong>Skill all</strong></button>
+        </div>
+    </div>
+
+
+
+
+
+
+    <!-- on top is instruction, randomly selected from array of 100 human expressions -->
+    <div id="myProgress" style="width: 100%; background-color: #ddd; ">
+        <div id="myBar" style="width: 1%; height: 10px; background-color: #4CAF50;"></div>
+    </div>
+
+
+    <h1 id='instruction' style="margin:0;">
+        Follow this instruction
+    </h1>
+
+
+    <!-- <div style="style='display: flex; justify-content: center;'">
+    </div> -->
+    <div style="margin-top:10px; display: table; margin: 0 auto; text-align: center;">
+        <button id="previous_button">Previous</button>
+        <button id="next_button">Next</button>
+    </div>
+
+    <div id="containment-wrapper">
+
+        <div id="dg_bread_plate" class="icon">
+            <div><img src="https://s3.amazonaws.com/nusrls/objects/Bread Plate.png" title="Bread Plate" width="72px" height="72px"/>
+        </div></div>
+
+        <div id="dg_charger" class="icon">
+            <div><img src="https://s3.amazonaws.com/nusrls/objects/Charger.png" title="Charger" width="122px" height="122px"/>
+        </div></div>
+
+        <div id="dg_coffee" class="icon">
+            <div><img src="https://s3.amazonaws.com/nusrls/objects/Coffee.png" title="Coffee Plate" width="77px" height="77px"/>
+        </div></div>
+
+        <div id="dg_dinner_plate" class="icon">
+            <div><img src="https://s3.amazonaws.com/nusrls/objects/Dinner Plate.png" title="Dinner Plate" width="93px" height="93px"/>
+        </div></div>
+
+        <div id="dg_napkin" class="icon">
+            <div><img src="https://s3.amazonaws.com/nusrls/objects/Napkin.png" title="Napkin" width="33px" height="93px"/>
+        </div></div>
+
+        <div id="dg_water_glass" class="icon">
+            <div><img src="https://s3.amazonaws.com/nusrls/objects/Water Glass.png" title="Water Glass" width="34px" height="34px"/>
+        </div></div>
+
+        <div id="dg_wine_glass" class="icon">
+            <div><img src="https://s3.amazonaws.com/nusrls/objects/Wine Glass.png" title="Wine Glass" width="35px" height="35px"/>
+        </div></div>
+
+        <div id="dg_wine_glass_1" class="icon">
+            <div><img src="https://s3.amazonaws.com/nusrls/objects/Wine Glass (1).png" title="Wine Glass (1)" width="35px" height="35px"/>
+        </div></div>
+
+        <div id="dg_wine_glass_2" class="icon">
+            <div><img src="https://s3.amazonaws.com/nusrls/objects/Wine Glass (2).png" title="Wine Glass (2)" width="35px" height="35px"/>
+        </div></div>
+
+        <div id="dg_table_cloth" class="icon">
+            <div><img src="https://s3.amazonaws.com/nusrls/objects/Table Cloth.png" title="Table Cloth" width="370px" height="226px"/>
+        </div></div>
+
+
+
+        <div id="dg_butter_knife" class="icon">
+            <div id="rt_butter_knife"><img src="https://s3.amazonaws.com/nusrls/objects/Butter Knife.png" title="Butter Knife" width="8.4px" height="60px"/>
+        </div></div>
+
+        <div id="dg_dessert_fork" class="icon">
+            <div id="rt_dessert_fork"><img src="https://s3.amazonaws.com/nusrls/objects/Dessert Fork.png" title="Dessert Fork" width="10.4px" height="60px"/>
+        </div></div>
+
+        <div id="dg_dessert_spoon" class="icon">
+            <div id="rt_dessert_spoon"><img src="https://s3.amazonaws.com/nusrls/objects/Dessert Spoon.png" title="Dessert Spoon" width="11.5px" height="57px"/>
+        </div></div>
+
+        <div id="dg_dinner_fork" class="icon">
+            <div id="rt_dinner_fork"><img src="https://s3.amazonaws.com/nusrls/objects/Dinner Fork.png" title="Dinner Fork" width="14px" height="89px"/>
+        </div></div>
+
+        <div id="dg_dinner_knife" class="icon">
+            <div id="rt_dinner_knife"><img src="https://s3.amazonaws.com/nusrls/objects/Dinner Knife.png" title="Dinner Knife" width="12px" height="92.6px"/>
+        </div></div>
+
+        <div id="dg_salad_fork" class="icon">
+            <div id="rt_salad_fork"><img src="https://s3.amazonaws.com/nusrls/objects/Salad Fork.png" title="Salad Fork" width="12px" height="74px"/>
+        </div></div>
+
+        <div id="dg_salad_knife" class="icon">
+            <div id="rt_salad_knife"><img src="https://s3.amazonaws.com/nusrls/objects/Salad Knife.png" title="Salad Knife" width="12px" height="82px"/>
+        </div></div>
+
+        <div id="dg_soup_spoon" class="icon">
+            <div id="rt_soup_spoon"><img src="https://s3.amazonaws.com/nusrls/objects/Soup Spoon.png" title="Soup Spoon" width="16px" height="74px"/>
+        </div>
+    </div>
+
+
+    <div id="objects" style="position: relative; left: 480px;">
+
+        <div id="loc_bread_plate">Bread plate: </div>
+        <div id="loc_charger">Charger: </div>
+        <div id="loc_coffee">Coffee: </div>
+        <div id="loc_dinner_plate">Dinner plate: </div>
+        <div id="loc_napkin">Napkin: </div>
+        <div id="loc_water_glass">Water glass: </div>
+        <div id="loc_wine_glass">Wine glass (left): </div>
+        <div id="loc_wine_glass_2">Wine glass (middle): </div>
+        <div id="loc_wine_glass_1">Wine glass (right): </div>
+
+        <div id="loc_butter_knife">Butter knife: </div>
+        <div id="rot_butter_knife">Butter knife: </div>
+
+        <div id="loc_dessert_fork">Dessert fork: </div>
+        <div id="rot_dessert_fork">Dessert fork: </div>
+
+        <div id="loc_dessert_spoon">Dessert spoon: </div>
+        <div id="rot_dessert_spoon">Dessert spoon: </div>
+
+        <div id="loc_dinner_fork">Dinner fork: </div>
+        <div id="rot_dinner_fork">Dinner fork: </div>
+
+        <div id="loc_dinner_knife">Dinner knife: </div>
+        <div id="rot_dinner_knife">Dinner knife: </div>
+
+        <div id="loc_salad_fork">Salad fork: </div>
+        <div id="rot_salad_fork">Salad fork: </div>
+
+        <div id="loc_salad_knife">Salad knife: </div>
+        <div id="rot_salad_knife">Salad knife: </div>
+
+        <div id="loc_soup_spoon">Soup spoon: </div>
+        <div id="rot_soup_spoon">Soup spoon: </div>
+
+    </div>
+
+</div>
+
+</body>
+
+<script>
+
+var things_not_rotatable = ["bread_plate", "charger", "coffee", "dinner_plate",
+                        "napkin", "water_glass", "wine_glass", "wine_glass_1", "wine_glass_2"]
+
+var things_rotatable = ["butter_knife", "dessert_fork", "dessert_spoon", "dinner_fork",
+                      "dinner_knife", "salad_fork", "salad_knife","soup_spoon"]
+
+var things_all = things_not_rotatable.concat(things_rotatable)
+
+// console.log(things_all);
+
+// define all splash clicking functions
+var splash_indices = ["00", "01", "02", "11", "12", "2","3","4","5","6"]
+
+for(i=0; i<splash_indices.length; i++){
+    index = splash_indices[i]
+    $('#start_button_'+index).click(function() {
+        document.getElementById('instructions_splash_'+index).style.visibility = 'hidden'
+    })
+}
+
+$('#start_button_all').click(function() {
+    for(i=0; i<splash_indices.length; i++){
+        index = splash_indices[i]
+        console.log('instructions_splash_'+index);
+        document.getElementById('instructions_splash_'+index).style.visibility = 'hidden'
+    }
+})
+
+
+// define all move over effects
+for (i = 0; i < things_all.length; i++){
+    thing = things_all[i]
+    document.getElementById("dg_"+thing).addEventListener("mouseover", function(){
+        document.getElementById("loc_"+thing).style.color = "red";
+        document.getElementById("loc_"+thing).style.fontSize = "24px";
+        if(existsIn(thing, things_rotatable)){
+            document.getElementById("rot_"+thing).style.color = "red";
+            document.getElementById("rot_"+thing).style.fontSize = "24px";
+        }
+    });
+    document.getElementById("dg_"+thing).addEventListener("mouseout", function(){
+        document.getElementById("loc_"+thing).style.color = "black";
+        document.getElementById("loc_"+thing).style.fontSize = "16px";
+        if(existsIn(thing, things_rotatable)){
+            document.getElementById("rot_"+thing).style.color = "black";
+            document.getElementById("rot_"+thing).style.fontSize = "16px";
+        }
+    });
+}
+
+function _extract_url_string(url, key, defaultValue) {
+    var name = key
+    key = key.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regexS = "[\\?&]" + key + "=([^&#]*)";
+    var regex = new RegExp(regexS);
+    var results = regex.exec(url) || ["", defaultValue]
+
+    return results[1]
+}
+
+function get_assignmentId_from_url(url) {
+    var assignmentId = _extract_url_string(url, 'assignmentId', 'assignmentId_not_found')
+    console.log('assignmentId', assignmentId)
+
+    return assignmentId
+}
+
+function detect_sandbox_mode(url) {
+    var submitToURL = _extract_url_string(url, 'turkSubmitTo', 'https://www.mturk.com')
+    console.log('submittoURL', submitToURL)
+    try {
+        if (submitToURL.indexOf('workersandbox') != -1) {
+            var inSandboxMode = true
+        } else {
+            var inSandboxMode = false
+        }
+    } catch (error) {
+        console.log(error)
+        var inSandboxMode = false
+    }
+    return inSandboxMode
+
+}
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// ~~~~~ Define draggable objects ~~~~~
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+$(function() {
+
+    var offset = 0, xPos = 0, yPos = 0;
+
+    // define draggable objects
+    for (i = 0; i < things_all.length; i++){
+        thing = things_all[i]
+        $('#dg_'+thing).draggable({
+            containment: "#containment-wrapper",
+            stack: "#containment-wrapper div",
+            scroll: false,
+            drag: function() {
+                offset = $(this).position();
+                xPos = offset.left;
+                yPos = offset.top;
+                $("#loc_"+thing).html(name[thing]+': (' + xPos + ', ' + yPos + ')');
+            }
+        });
+    }
+});
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// ~~~~~ Define instructions ~~~~~
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+// var instructions = [
+//     "put the knife on the right of the plate",
+//     "move the fork above the plate",
+//     // "put the fork between the plate and the knife",
+//     "you add the knife below the plate",
+//     "fork on the plate"
+// ];
+
+function rand(min, max) { return Math.floor(Math.random() * (max - min) + min); }
+
+function initiateTable() {
+
+    var yRand = 0, xRand = 0;
+
+    // initiate tables occording to table configure
+    for (i = 0; i < things_all.length; i++){
+        thing = things_all[i]
+        xRand = configs[thing][0]
+        yRand = configs[thing][1]
+        $("#loc_"+thing).html(name[thing][0]+': (' + xRand + ', ' + yRand + ')');
+        $("#dg_"+thing).css({ 'top': yRand, 'left': xRand });
+        if(existsIn(thing, things_rotatable)){
+            document.getElementById('rt_'+thing).style.transform = 'none'
+        }
+    }
+
+    // initiate rotatables
+    for (i = 0; i < things_rotatable.length; i++){
+        thing = things_rotatable[i]
+        $('#rt_'+thing).rotatable({
+            stop: function(event, ui) {
+                    $("#rot_"+thing).html(name[thing]+': '+ui.angle.stop / Math.PI * 180)
+                },
+            }
+        );
+        $("#rot_"+thing).html(name[thing]+': ')
+    }
+}
+
+function updateInstruction() {
+    // $("#instruction").html((t+1)+ " out of "+ instructions.length +" : "+instructions[t]);
+    $("#instruction").html(instructions[t]);
+    document.getElementById("myBar").style.width = (t/instructions.length*100) + '%';
+}
+
+// Have subject read instructions and click button to close
+$('#previous_button').click(function() {
+
+    t--;
+    console.log('previous!!!'+t);
+    updateInstruction()
+
+    if (t != 0) {
+
+        var previous_locations = dataobj.locations[t-1]
+        var yRand = 0, xRand = 0;
+
+        // recover previous object positions
+        for (i = 0; i < things_all.length; i++){
+            thing = things_all[i];
+            xRand = name[thing][1]
+            yRand = name[thing][2]
+            $("#loc_"+thing).html(name[thing][0]+': (' + xRand + ', ' + yRand + ')');
+            $("#dg_"+thing).css({ 'top': yRand, 'left': xRand });
+            if(existsIn(thing, things_rotatable)){
+                document.getElementById('rt_'+thing).style.transform = 'rotate(' + name[thing][3] + 'deg)'
+                $("#rot_"+thing).html(name[thing][0]+': '+name[thing][3])
+            }
+        }
+
+    } else {
+        document.getElementById('previous_button').style.visibility = 'hidden'
+        initiateTable()
+    }
+
+    dataobj.trialNumber.pop()
+    dataobj.locations.pop()
+    console.log(dataobj)
+
+    refreshPhotos()
+});
+
+function movedAfter(left_before, top_before, offset){
+    return moved(left_before, top_before, offset.left, offset.top)
+}
+
+function moved(left_before, top_before, left_after, top_after){
+    if (Math.abs(left_before-left_after) + Math.abs(top_before-top_after) < 2){
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function refreshPhotos(){
+
+    // set moved objects to be still
+    for (i = 0; i < things_all.length; i++){
+        thing = things_all[i]
+        offset = $('#dg_'+thing).position();
+        if (movedAfter(configs[thing][0],configs[thing][1],offset)){
+            $('#dg_'+thing).draggable( 'disable' )
+        } else {
+            $('#dg_'+thing).draggable( 'enable' )
+        }
+    }
+
+}
+
+// Have subject read instructions and click button to close
+$('#next_button').click(function() {
+    refreshPhotos()
+    console.log('clicked here!!!');
+
+    var offset = 0, rotation = "0";
+
+    // record positions of objects
+    for (i = 0; i < things_all.length; i++){
+        thing = things_all[i];
+        offset = $('#dg_'+thing).position();
+        if(existsIn(thing, things_rotatable)){
+            rotation = document.getElementById("rot_"+thing).innerHTML.split(':')[1].trim();
+            if (rotation=="") rotation = "0";
+            offset = $('#dg_'+thing).position();
+        }
+        locations.push(thing, offset.left, offset.top, rotation);
+    }
+
+    // ----------------------
+    // record final position
+    // ----------------------
+    dataobj['trialNumber'].push(t)
+    dataobj['locations'].push(locations)
+
+    console.log("-----------")
+    console.log(dataobj)
+    console.log("-----------")
+    locations = []
+
+    if (t != instructions.length-1) {
+
+        if (t==0){
+            document.getElementById('previous_button').style.visibility = 'visible'
+        }
+
+        t++;
+
+        updateInstruction()
+
+    } else {
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // ~~~~~ Execute submission to Mechanical Turk servers ~~~~~
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // Extract assignment data from the subject's URL
+
+        var current_url = window.location.href
+        var assignmentId = get_assignmentId_from_url(current_url)
+        var inSandboxMode = detect_sandbox_mode(current_url)
+
+
+        var data_string = JSON.stringify(dataobj)
+        console.log("-----------")
+        console.log("-----------")
+        console.log("-----------")
+        console.log(data_string)
+
+        // Submit data via POST request
+        document.getElementById("assignmentId").value = assignmentId;
+        document.getElementById("submission_data").value = data_string;
+
+        var submit_url = "https://www.mturk.com/mturk/externalSubmit"
+
+        if (inSandboxMode == true) {
+            var submit_url = "https://workersandbox.mturk.com/mturk/externalSubmit"
+        } else if (inSandboxMode == false) {
+            var submit_url = "https://www.mturk.com/mturk/externalSubmit"
+        }
+        document.getElementById("Mechanictitleurk_SubmissionForm").action = submit_url
+
+        try {
+            // ~~~~~ Uncomment the line below before you upload to mechanical turk ~~~~~
+            document.getElementById("Mechanictitleurk_SubmissionForm").submit();
+            console.log('EXECUTED SUBMISSION TO TURK')
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+});
+
+function existsIn(name, inArr)
+{
+    for (i = 0; i < inArr.length; i++ )
+    {
+        if (inArr[i].name == name)
+        {
+            return true;
+        }
+        return false;
+    }
+}
+
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// ~~~~~ Main workflow. Store the results in the variable 'dataobj' ~~~~~
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+var dataobj = {}
+dataobj['trialNumber'] = []
+dataobj['locations'] = []
+
+
+// Step 1 -- Read Instruction Files
+var datafile = 'instructions/ins_'+ Math.floor(Math.random()*3) +'.json';
+console.log(datafile)
+
+$.ajaxSettings.async = false;
+$.getJSON(datafile, function(data) {
+    dataobj['trialVideo'] = data.video_name;
+    dataobj['instructions'] = data.instructions;
+});
+$.ajaxSettings.async = true;
+
+var instructions = dataobj.instructions;
+// instructions = ["haha", "haha"];
+// console.log(instructions)
+
+
+
+// Step 2 -- Read Locations Files
+configs = {}
+$.getJSON( "table_configs/locations_1.json", function( data ) {
+  $.each( data, function( key, val ) {
+      configs[key] = [val[0], val[1]]
+  });
+});
+
+
+// Step 3 -- Read Object Names and Indices for previous_locations
+names = {}
+$.getJSON( "object_names.json", function( data ) {
+  $.each( data, function( key, val ) {
+      names[key] = [val[0], val[1], val[2]]
+  });
+});
+
+// ----------------------
+// initialize and record new position
+// ----------------------
+
+var locations = [];
+initiateTable();
+
+var t = 0;
+
+updateInstruction()
+
+
+</script>
+
+</html>

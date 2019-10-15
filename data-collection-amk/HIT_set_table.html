@@ -1,0 +1,1463 @@
+<!doctype html>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>Drag and Drop</title>
+
+    <form style="display: none;" id="Mechanictitleurk_SubmissionForm"
+        action="https://www.mturk.com/mturk/externalSubmit" method="post">
+        <input type="text" name="submission_data" id="submission_data" value="">
+        <input type="text" name="assignmentId" id="assignmentId" value="">
+        <input type="text" name="hitId" id="hitId" value="">
+    </form>
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="jquery.ui.rotatable.js"></script>
+
+    <style>
+        img { max-width: 100%; max-height: 500px; }
+        .column {float: left; width: 40%; margin: 10px 0.5%; box-sizing: border-box;}
+        .row::after { content: ""; clear: both; display: table; text-align: center; padding-left:10%;}
+        h1 {text-align: center; padding-top: 10px;}
+        #containment-wrapper { margin: 0 auto; width: 448px; height:448px; border:2px solid #ccc; padding: 3px; position: relative;}
+        #next_button { margin: 10px auto; width: 100px; height:40px; font-size: 18px; text-align: center; }
+        #previous_button { margin: 10px auto; width: 100px; height:40px; font-size: 18px; text-align: center; visibility: hidden;}
+        .ok_button { font-size : 22px; width: 30%; height: 60px; text-align: center; margin: 10px auto; display: table;}
+        .instructions_splash { position: fixed; top:50%; left:50%; width:60%; background-color:#E4E4E4; transform:translate(-50%,-50%); border-style:solid; border-color:gray; border-width:3px; z-index: 70; font-size: 26px; padding: 50px;}
+        .icon { position: absolute; top: 0px; left: 0px;}
+        .ui-rotatable-handle { height: 12px; width: 12px; cursor: pointer;
+          background-image: url(rotate.png); background-size: 100%; margin-left: 0px; left: 0px; bottom: 0px;}
+    </style>
+
+</head>
+
+<body>
+
+    <div id='instructions_splash_5' class="instructions_splash">
+        <p style='padding-left:5%; '>
+
+            <h3>The instruction can be imprecise. Such as the one on the <font style="color:#3EA6CC;"><strong>Left. </strong></font>
+
+            <br><br> Try to arrange like the one on the <font style="color:coral;"><strong>Right</strong></font> because plate should be close to the bottom size of the table cloth (easier for humans to eat).</h3>
+            <div>
+              <div class="row">
+                <div class="column" style="padding:8px; padding-bottom:4px; background-color: #3EA6CC; width: 46%; margin:0; margin-right:3%;">
+                  <img src="https://s3.amazonaws.com/nusrls/tutorial/21+why+previous+-+wrong+new.gif"/>
+                </div>
+                <div class="column" style="padding:8px; padding-bottom:4px; background-color: coral; width: 46%; margin:0;">
+                  <img src="https://s3.amazonaws.com/nusrls/tutorial/21+why+previous+-+right.gif"/>
+                </div>
+              </div>
+            </div>
+
+        </p>
+
+        <div style='display: flex; justify-content: center;'>
+          <button type="button" id='start_button_5' class="ok_button"><strong>Ok, I am ready!</strong></button>
+        </div>
+    </div>
+
+
+    <div id='instructions_splash_4' class="instructions_splash">
+        <p style='padding-left:5%; '>
+            <br><h3>Rotate an object by dragging the purple icon below the object.</h3><br><br><br><br>
+            <div style="margin:8px auto; width:137px; height:auto;">
+              <img src="https://s3.amazonaws.com/nusrls/rotate.gif"/>
+            </div>
+        </p>
+
+        <div style='display: flex; justify-content: center;'>
+          <button type="button" id='start_button_4' class="ok_button"><strong>I understand</strong></button>
+        </div>
+    </div>
+
+
+    <div id='instructions_splash_3' class="instructions_splash">
+        <p style='padding-left:5%; '>
+
+            Once you clicked <strong>'Next'</strong>, the objects you have put on table will be locked.
+
+            <br><br> You can click <strong>'Previous'</strong> to go back to the previous frames to revise your move.<br>
+
+            <div style="margin:8px auto; width: 550px">
+              <img src="https://s3.amazonaws.com/nusrls/tutorial/12+previous.gif"/>
+            </div>
+
+        </p>
+
+        <div style='display: flex; justify-content: center;'>
+          <button type="button" id='start_button_3' class="ok_button"><strong>I understand</strong></button>
+        </div>
+    </div>
+
+
+
+
+    <div id='instructions_splash_2' class="instructions_splash">
+        <p style='padding-left:5%; '>
+
+            <h3>When you drag an object, <strong><font style="color:red;">its name will be shown at your mouse tip</font></strong>, and also <font color="red"><strong>highlighted in red on the right</strong></font>.<h3>
+
+            <div style="margin:8px auto; width: 500px">
+              <img src="https://s3.amazonaws.com/nusrls/tutorial/11+objects.gif"/>
+            </div>
+
+        </p>
+
+        <div style='display: flex; justify-content: center;'>
+          <button type="button" id='start_button_2' class="ok_button"><strong>I understand</strong></button>
+        </div>
+    </div>
+
+
+
+    <div id='instructions_splash_1' class="instructions_splash">
+        <p style='padding-left:5%; '>
+
+            <h2>In the end, the objects should be arranged <font color="red"><strong>within the table cloth</strong></font>, like this:</h2>
+
+            <div style="margin:8px auto; width: 450px">
+              <img src="https://s3.amazonaws.com/nusrls/tutorial/9+table+4.jpg"/>
+            </div>
+
+        </p>
+
+        <div style='display: flex; justify-content: center;'>
+          <button type="button" id='start_button_1' class="ok_button"><strong>I understand</strong></button>
+        </div>
+    </div>
+
+
+    <div id='instructions_splash_0' class="instructions_splash">
+        <p style='padding-left:5%; '>
+
+            <h2>Your task is to <font color="red"><strong>drag objects onto the brown table cloth</strong></font> and <font color="red"><strong>arrange them according to instructions</strong></font></h2>
+
+            <div style="margin:8px auto; width: 350px">
+              <img src="https://s3.amazonaws.com/nusrls/tutorial/22+why+previous+-+right+new.gif"/>
+            </div>
+
+        </p>
+
+        <div style='display: flex; justify-content: center;'>
+          <button type="button" id='start_button_0' class="ok_button"><strong>I understand</strong></button>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- on top is instruction, randomly selected from array of 100 human expressions -->
+    <div id="myProgress" style="width: 100%; background-color: #ddd; ">
+        <div id="myBar" style="width: 1%; height: 10px; background-color: #4CAF50;"></div>
+    </div>
+
+
+    <h1 id='instruction' style="margin:0;">
+        Follow this instruction
+    </h1>
+
+    <p id="no" style="margin:0; text-align: center;"> Sentence No.: 1 / 12 </p>
+
+    <div id="debug" style="width: 100%; margin:0; text-align: center; display: none;">
+        <h1 id="configName" style="margin:0;">name</h1>
+        <h1 id="time" style="margin:0;">time</h1>
+    </div>
+
+
+
+    <!-- <div style="style='display: flex; justify-content: center;'">
+    </div> -->
+    <div style="margin-top:10px; display: table; margin: 0 auto; text-align: center;">
+        <button id="previous_button">Previous</button>
+        <button id="next_button">Next</button>
+    </div>
+
+    <div id="containment-wrapper">
+
+        <div id="dg_bread_plate" class="icon">
+            <div><img id="img_bread_plate" src="https://s3.amazonaws.com/nusrls/objects/Bread Plate.png" title="Bread Plate" style="z-index:10; width:72px; height:72px;"/>
+        </div></div>
+
+        <div id="dg_charger" class="icon">
+            <div><img id="img_charger" src="https://s3.amazonaws.com/nusrls/objects/Charger.png" title="Charger" style="z-index:10; width:122px; height:122px;"/>
+        </div></div>
+
+        <div id="dg_coffee" class="icon">
+            <div><img id="img_coffee" src="https://s3.amazonaws.com/nusrls/objects/Coffee.png" title="Coffee Plate" style="z-index:10; width:77px; height:77px;"/>
+        </div></div>
+
+        <div id="dg_dinner_plate" class="icon">
+            <div><img id="img_dinner_plate" src="https://s3.amazonaws.com/nusrls/objects/Dinner Plate.png" title="Dinner Plate" style="z-index:10; width:93px; height:93px;"/>
+        </div></div>
+
+        <div id="dg_napkin" class="icon">
+            <div><img id="img_napkin" src="https://s3.amazonaws.com/nusrls/objects/Napkin.png" title="Napkin" style="z-index:10; width:33px; height:93px;"/>
+        </div></div>
+
+        <div id="dg_water_glass" class="icon">
+            <div><img id="img_water_glass" src="https://s3.amazonaws.com/nusrls/objects/Water Glass.png" title="Water Glass" style="z-index:10;width:34px; height:34px;"/>
+        </div></div>
+
+        <div id="dg_wine_glass" class="icon">
+            <div><img id="img_wine_glass" src="https://s3.amazonaws.com/nusrls/objects/Wine Glass.png" title="Wine Glass" style="z-index:10;width:35px; height:35px;"/>
+        </div></div>
+
+        <div id="dg_wine_glass_1" class="icon">
+            <div><img id="img_wine_glass_1" src="https://s3.amazonaws.com/nusrls/objects/Wine Glass (1).png" title="Wine Glass (1)" style="z-index:10; width:35px; height:35px;"/>
+        </div></div>
+
+        <div id="dg_wine_glass_2" class="icon">
+            <div><img id="img_wine_glass_2" src="https://s3.amazonaws.com/nusrls/objects/Wine Glass (2).png" title="Wine Glass (2)" style="z-index:10; width:35px; height:35px;"/>
+        </div></div>
+
+        <div id="dg_table_cloth" class="icon">
+            <div><img id="img_table_cloth" src="https://s3.amazonaws.com/nusrls/objects/Table Cloth.png" title="Table Cloth" style="z-index:-1; width: 340px; height: 180px;"/> <!--width="305px" height="180px"  width="370px" height="226px"-->
+        </div></div>
+
+
+
+        <div id="dg_butter_knife" class="icon">
+            <div id="rt_butter_knife"><img id="img_butter_knife" src="https://s3.amazonaws.com/nusrls/objects/Butter Knife.png" title="Butter Knife" style="z-index:10; width:8.4px; height:60px;"/>
+        </div></div>
+
+        <div id="dg_dessert_fork" class="icon">
+            <div id="rt_dessert_fork"><img id="img_dessert_fork" src="https://s3.amazonaws.com/nusrls/objects/Dessert Fork.png" title="Dessert Fork" style="z-index:10; width:10.4px; height:60px;"/>
+        </div></div>
+
+        <div id="dg_dessert_spoon" class="icon">
+            <div id="rt_dessert_spoon"><img id="img_dessert_spoon" src="https://s3.amazonaws.com/nusrls/objects/Dessert Spoon.png" title="Dessert Spoon" style="z-index:10; width:11.5px; height:57px;"/>
+        </div></div>
+
+        <div id="dg_dinner_fork" class="icon">
+            <div id="rt_dinner_fork"><img id="img_dinner_fork" src="https://s3.amazonaws.com/nusrls/objects/Dinner Fork.png" title="Dinner Fork" style="z-index:10; width:14px; height:89px;"/>
+        </div></div>
+
+        <div id="dg_dinner_knife" class="icon">
+            <div id="rt_dinner_knife"><img id="img_dinner_knife" src="https://s3.amazonaws.com/nusrls/objects/Dinner Knife.png" title="Dinner Knife" style="z-index:10; width:12px; height:92.6px;"/>
+        </div></div>
+
+        <div id="dg_salad_fork" class="icon">
+            <div id="rt_salad_fork"><img id="img_salad_fork" src="https://s3.amazonaws.com/nusrls/objects/Salad Fork.png" title="Salad Fork" style="z-index:10; width:12px; height:74px;"/>
+        </div></div>
+
+        <div id="dg_salad_knife" class="icon">
+            <div id="rt_salad_knife"><img id="img_salad_knife" src="https://s3.amazonaws.com/nusrls/objects/Salad Knife.png" title="Salad Knife" style="z-index:10; width:12px; height:82px;"/>
+        </div></div>
+
+        <div id="dg_soup_spoon" class="icon">
+            <div id="rt_soup_spoon"><img id="img_soup_spoon" src="https://s3.amazonaws.com/nusrls/objects/Soup Spoon.png" title="Soup Spoon" style="z-index:10; width:16px; height:74px;"/>
+        </div>
+    </div>
+
+    <div id="objects" style="position: relative; left: -75%; font-size: 25px; color:red; height:0px; width:70%;">
+        <p style="margin-top:0px"> Note: Don't overlap the wine glasses, water glass, and coffee cup with other objects.</p>
+        <p> When you lack space for the next move, you can reverse previous moves by pressing "Previous"</p>
+    </div>
+
+    <div id="objects" style="position: relative; left: 480px;">
+
+        <div id="loc_bread_plate">Bread plate: </div>
+        <div id="loc_charger">Charger: </div>
+        <div id="loc_coffee">Coffee: </div>
+        <div id="loc_dinner_plate">Dinner plate: </div>
+        <div id="loc_napkin">Napkin: </div>
+        <div id="loc_water_glass">Water glass: </div>
+        <div id="loc_wine_glass">Wine glass (left): </div>
+        <div id="loc_wine_glass_2">Wine glass (middle): </div>
+        <div id="loc_wine_glass_1">Wine glass (right): </div>
+
+        <div id="loc_butter_knife">Butter knife: </div>
+        <div id="rot_butter_knife">Butter knife: </div>
+
+        <div id="loc_dessert_fork">Dessert fork: </div>
+        <div id="rot_dessert_fork">Dessert fork: </div>
+
+        <div id="loc_dessert_spoon">Dessert spoon: </div>
+        <div id="rot_dessert_spoon">Dessert spoon: </div>
+
+        <div id="loc_dinner_fork">Dinner fork: </div>
+        <div id="rot_dinner_fork">Dinner fork: </div>
+
+        <div id="loc_dinner_knife">Dinner knife: </div>
+        <div id="rot_dinner_knife">Dinner knife: </div>
+
+        <div id="loc_salad_fork">Salad fork: </div>
+        <div id="rot_salad_fork">Salad fork: </div>
+
+        <div id="loc_salad_knife">Salad knife: </div>
+        <div id="rot_salad_knife">Salad knife: </div>
+
+        <div id="loc_soup_spoon">Soup spoon: </div>
+        <div id="rot_soup_spoon">Soup spoon: </div>
+
+    </div>
+
+    <div style="display:block;text-align:center;">
+        <img src="https://s3.amazonaws.com/nusrls/tutorial/cutlery.jpg" style="width:80%; padding-top: 10px;">
+
+          <h2>Your task is to <font color="red"><strong>drag objects onto the brown table cloth</strong></font> and <font color="red"><strong>arrange them according to instructions</strong></font></h2>
+
+          <div style="margin:8px auto; width: 350px">
+            <img src="https://s3.amazonaws.com/nusrls/tutorial/22+why+previous+-+right+new.gif"/>
+          </div>
+
+
+          <br><br><h2>In the end, the objects should be arranged like this:</h2>
+
+          <div style="margin:8px auto; width: 450px">
+            <img src="https://s3.amazonaws.com/nusrls/tutorial/9+table+4.jpg"/>
+          </div>
+
+
+          <br><br><h2>When you drag an object, <strong><font style="color:red;">its name will be shown at your mouse tip</font></strong>, and also <font color="red"><strong>highlighted in red on the right</strong></font>.<h2>
+
+          <div style="margin:8px auto; width: 500px">
+            <img src="https://s3.amazonaws.com/nusrls/tutorial/11+objects.gif"/>
+          </div>
+
+
+          <br><br><h2>Once you clicked <strong>'Next'</strong>, the objects you have put on table will be locked.
+
+          <br><br> You can click <strong>'Previous'</strong> to go back to the previous frames to revise your move.</h2>
+
+          <div style="margin:8px auto; width: 550px">
+            <img src="https://s3.amazonaws.com/nusrls/tutorial/12+previous.gif"/>
+          </div>
+
+
+          <br><br><h2>Rotate an object by dragging the purple icon below the object.</h1><br><br><br><br>
+          <div style="margin:8px auto; width:137px; height:auto;">
+            <img src="https://s3.amazonaws.com/nusrls/rotate.gif"/>
+          </div>
+
+
+          <br><br><h2>The instruction can be imprecise. Such as the one on the <font style="color:#3EA6CC;"><strong>Left. </strong></font>
+
+          <br><br> Try to arrange like the one on the <font style="color:coral;"><strong>Right</strong></font> because plate should be close to the bottom size of the table cloth (easier for humans to eat).</h2>
+          <div>
+            <div class="row">
+              <div class="column" style="padding:8px; padding-bottom:4px; background-color: #3EA6CC; width: 46%; margin:0; margin-right:3%;">
+                <img src="https://s3.amazonaws.com/nusrls/tutorial/21+why+previous+-+wrong+new.gif"/>
+              </div>
+              <div class="column" style="padding:8px; padding-bottom:4px; background-color: coral; width: 46%; margin:0;">
+                <img src="https://s3.amazonaws.com/nusrls/tutorial/21+why+previous+-+right.gif"/>
+              </div>
+            </div>
+          </div>
+
+
+    </div>
+</div>
+
+</body>
+
+<script>
+
+var things_not_rotatable = ["bread_plate", "charger", "coffee", "dinner_plate",
+                        "napkin", "water_glass", "wine_glass", "wine_glass_1", "wine_glass_2"]
+
+var things_rotatable = ["butter_knife", "dessert_fork", "dessert_spoon", "dinner_fork",
+                      "dinner_knife", "salad_fork", "salad_knife","soup_spoon"]
+
+var things_all = things_not_rotatable.concat(things_rotatable)
+
+
+$('#start_button_all').click(function() {
+    for(i=0; i<6; i++){
+        document.getElementById('instructions_splash_'+i).style.visibility = 'hidden'
+    }
+})
+
+$('#start_button_0').click(function() {
+    document.getElementById('instructions_splash_0').style.visibility = 'hidden'
+})
+
+$('#start_button_1').click(function() {
+    document.getElementById('instructions_splash_1').style.visibility = 'hidden'
+})
+
+$('#start_button_2').click(function() {
+    document.getElementById('instructions_splash_2').style.visibility = 'hidden'
+})
+
+$('#start_button_3').click(function() {
+    document.getElementById('instructions_splash_3').style.visibility = 'hidden'
+})
+
+$('#start_button_4').click(function() {
+    document.getElementById('instructions_splash_4').style.visibility = 'hidden'
+})
+
+$('#start_button_5').click(function() {
+    document.getElementById('instructions_splash_5').style.visibility = 'hidden'
+})
+
+
+// define all move over effects
+// for (j = 0; j < things_all.length; j++){
+//     thing = things_all[j]
+//     document.getElementById("dg_"+thing).addEventListener("mouseover", function(){
+//         document.getElementById("loc_"+thing).style.color = "red";
+//         document.getElementById("loc_"+thing).style.fontSize = "24px";
+//         if(existsIn(thing, things_rotatable)){
+//             document.getElementById("rot_"+thing).style.color = "red";
+//             document.getElementById("rot_"+thing).style.fontSize = "24px";
+//         }
+//     });
+//     document.getElementById("dg_"+thing).addEventListener("mouseout", function(){
+//         document.getElementById("loc_"+thing).style.color = "black";
+//         document.getElementById("loc_"+thing).style.fontSize = "16px";
+//         if(existsIn(thing, things_rotatable)){
+//             document.getElementById("rot_"+thing).style.color = "black";
+//             document.getElementById("rot_"+thing).style.fontSize = "16px";
+//         }
+//     });
+// }
+
+document.getElementById("dg_bread_plate").addEventListener("mouseover", mouseOverdg_bread_plate);
+document.getElementById("dg_bread_plate").addEventListener("mouseout", mouseOutdg_bread_plate);
+function mouseOverdg_bread_plate() {
+  document.getElementById("loc_bread_plate").style.color = "red";
+  document.getElementById("loc_bread_plate").style.fontSize = "24px";
+}
+function mouseOutdg_bread_plate() {
+  document.getElementById("loc_bread_plate").style.color = "black";
+  document.getElementById("loc_bread_plate").style.fontSize = "16px";
+}
+
+
+document.getElementById("dg_charger").addEventListener("mouseover", mouseOverdg_charger);
+document.getElementById("dg_charger").addEventListener("mouseout", mouseOutdg_charger);
+function mouseOverdg_charger() {
+  document.getElementById("loc_charger").style.color = "red";
+  document.getElementById("loc_charger").style.fontSize = "24px";
+}
+function mouseOutdg_charger() {
+  document.getElementById("loc_charger").style.color = "black";
+  document.getElementById("loc_charger").style.fontSize = "16px";
+}
+
+document.getElementById("dg_coffee").addEventListener("mouseover", mouseOverdg_coffee);
+document.getElementById("dg_coffee").addEventListener("mouseout", mouseOutdg_coffee);
+function mouseOverdg_coffee() {
+  document.getElementById("loc_coffee").style.color = "red";
+  document.getElementById("loc_coffee").style.fontSize = "24px";
+}
+function mouseOutdg_coffee() {
+  document.getElementById("loc_coffee").style.color = "black";
+  document.getElementById("loc_coffee").style.fontSize = "16px";
+}
+
+
+document.getElementById("dg_dinner_plate").addEventListener("mouseover", mouseOverdg_dinner_plate);
+document.getElementById("dg_dinner_plate").addEventListener("mouseout", mouseOutdg_dinner_plate);
+function mouseOverdg_dinner_plate() {
+  document.getElementById("loc_dinner_plate").style.color = "red";
+  document.getElementById("loc_dinner_plate").style.fontSize = "24px";
+}
+function mouseOutdg_dinner_plate() {
+  document.getElementById("loc_dinner_plate").style.color = "black";
+  document.getElementById("loc_dinner_plate").style.fontSize = "16px";
+}
+
+
+document.getElementById("dg_napkin").addEventListener("mouseover", mouseOverdg_napkin);
+document.getElementById("dg_napkin").addEventListener("mouseout", mouseOutdg_napkin);
+function mouseOverdg_napkin() {
+  document.getElementById("loc_napkin").style.color = "red";
+  document.getElementById("loc_napkin").style.fontSize = "24px";
+}
+function mouseOutdg_napkin() {
+  document.getElementById("loc_napkin").style.color = "black";
+  document.getElementById("loc_napkin").style.fontSize = "16px";
+}
+
+
+document.getElementById("dg_water_glass").addEventListener("mouseover", mouseOverdg_water_glass);
+document.getElementById("dg_water_glass").addEventListener("mouseout", mouseOutdg_water_glass);
+function mouseOverdg_water_glass() {
+  document.getElementById("loc_water_glass").style.color = "red";
+  document.getElementById("loc_water_glass").style.fontSize = "24px";
+}
+function mouseOutdg_water_glass() {
+  document.getElementById("loc_water_glass").style.color = "black";
+  document.getElementById("loc_water_glass").style.fontSize = "16px";
+}
+
+
+document.getElementById("dg_wine_glass").addEventListener("mouseover", mouseOverdg_wine_glass);
+document.getElementById("dg_wine_glass").addEventListener("mouseout", mouseOutdg_wine_glass);
+function mouseOverdg_wine_glass() {
+  document.getElementById("loc_wine_glass").style.color = "red";
+  document.getElementById("loc_wine_glass").style.fontSize = "24px";
+}
+function mouseOutdg_wine_glass() {
+  document.getElementById("loc_wine_glass").style.color = "black";
+  document.getElementById("loc_wine_glass").style.fontSize = "16px";
+}
+
+
+document.getElementById("dg_wine_glass_1").addEventListener("mouseover", mouseOverdg_wine_glass_1);
+document.getElementById("dg_wine_glass_1").addEventListener("mouseout", mouseOutdg_wine_glass_1);
+function mouseOverdg_wine_glass_1() {
+  document.getElementById("loc_wine_glass_1").style.color = "red";
+  document.getElementById("loc_wine_glass_1").style.fontSize = "24px";
+}
+function mouseOutdg_wine_glass_1() {
+  document.getElementById("loc_wine_glass_1").style.color = "black";
+  document.getElementById("loc_wine_glass_1").style.fontSize = "16px";
+}
+
+
+document.getElementById("dg_wine_glass_2").addEventListener("mouseover", mouseOverdg_wine_glass_2);
+document.getElementById("dg_wine_glass_2").addEventListener("mouseout", mouseOutdg_wine_glass_2);
+function mouseOverdg_wine_glass_2() {
+  document.getElementById("loc_wine_glass_2").style.color = "red";
+  document.getElementById("loc_wine_glass_2").style.fontSize = "24px";
+}
+function mouseOutdg_wine_glass_2() {
+  document.getElementById("loc_wine_glass_2").style.color = "black";
+  document.getElementById("loc_wine_glass_2").style.fontSize = "16px";
+}
+
+
+document.getElementById("dg_butter_knife").addEventListener("mouseover", mouseOverdg_butter_knife);
+document.getElementById("dg_butter_knife").addEventListener("mouseout", mouseOutdg_butter_knife);
+function mouseOverdg_butter_knife() {
+  document.getElementById("loc_butter_knife").style.color = "red";
+  document.getElementById("loc_butter_knife").style.fontSize = "24px";
+  document.getElementById("rot_butter_knife").style.color = "red";
+  document.getElementById("rot_butter_knife").style.fontSize = "24px";
+}
+function mouseOutdg_butter_knife() {
+  document.getElementById("loc_butter_knife").style.color = "black";
+  document.getElementById("loc_butter_knife").style.fontSize = "16px";
+  document.getElementById("rot_butter_knife").style.color = "black";
+  document.getElementById("rot_butter_knife").style.fontSize = "16px";
+}
+
+
+document.getElementById("dg_dessert_fork").addEventListener("mouseover", mouseOverdg_dessert_fork);
+document.getElementById("dg_dessert_fork").addEventListener("mouseout", mouseOutdg_dessert_fork);
+function mouseOverdg_dessert_fork() {
+  document.getElementById("loc_dessert_fork").style.color = "red";
+  document.getElementById("loc_dessert_fork").style.fontSize = "24px";
+  document.getElementById("rot_dessert_fork").style.color = "red";
+  document.getElementById("rot_dessert_fork").style.fontSize = "24px";
+}
+function mouseOutdg_dessert_fork() {
+  document.getElementById("loc_dessert_fork").style.color = "black";
+  document.getElementById("loc_dessert_fork").style.fontSize = "16px";
+  document.getElementById("rot_dessert_fork").style.color = "black";
+  document.getElementById("rot_dessert_fork").style.fontSize = "16px";
+}
+
+
+document.getElementById("dg_dessert_spoon").addEventListener("mouseover", mouseOverdg_dessert_spoon);
+document.getElementById("dg_dessert_spoon").addEventListener("mouseout", mouseOutdg_dessert_spoon);
+function mouseOverdg_dessert_spoon() {
+  document.getElementById("loc_dessert_spoon").style.color = "red";
+  document.getElementById("loc_dessert_spoon").style.fontSize = "24px";
+  document.getElementById("rot_dessert_spoon").style.color = "red";
+  document.getElementById("rot_dessert_spoon").style.fontSize = "24px";
+}
+function mouseOutdg_dessert_spoon() {
+  document.getElementById("loc_dessert_spoon").style.color = "black";
+  document.getElementById("loc_dessert_spoon").style.fontSize = "16px";
+  document.getElementById("rot_dessert_spoon").style.color = "black";
+  document.getElementById("rot_dessert_spoon").style.fontSize = "16px";
+}
+
+
+document.getElementById("dg_dinner_fork").addEventListener("mouseover", mouseOverdg_dinner_fork);
+document.getElementById("dg_dinner_fork").addEventListener("mouseout", mouseOutdg_dinner_fork);
+function mouseOverdg_dinner_fork() {
+  document.getElementById("loc_dinner_fork").style.color = "red";
+  document.getElementById("loc_dinner_fork").style.fontSize = "24px";
+  document.getElementById("rot_dinner_fork").style.color = "red";
+  document.getElementById("rot_dinner_fork").style.fontSize = "24px";
+}
+function mouseOutdg_dinner_fork() {
+  document.getElementById("loc_dinner_fork").style.color = "black";
+  document.getElementById("loc_dinner_fork").style.fontSize = "16px";
+  document.getElementById("rot_dinner_fork").style.color = "black";
+  document.getElementById("rot_dinner_fork").style.fontSize = "16px";
+}
+
+
+document.getElementById("dg_dinner_knife").addEventListener("mouseover", mouseOverdg_dinner_knife);
+document.getElementById("dg_dinner_knife").addEventListener("mouseout", mouseOutdg_dinner_knife);
+function mouseOverdg_dinner_knife() {
+  document.getElementById("loc_dinner_knife").style.color = "red";
+  document.getElementById("loc_dinner_knife").style.fontSize = "24px";
+  document.getElementById("rot_dinner_knife").style.color = "red";
+  document.getElementById("rot_dinner_knife").style.fontSize = "24px";
+}
+function mouseOutdg_dinner_knife() {
+  document.getElementById("loc_dinner_knife").style.color = "black";
+  document.getElementById("loc_dinner_knife").style.fontSize = "16px";
+  document.getElementById("rot_dinner_knife").style.color = "black";
+  document.getElementById("rot_dinner_knife").style.fontSize = "16px";
+}
+
+
+document.getElementById("dg_salad_fork").addEventListener("mouseover", mouseOverdg_salad_fork);
+document.getElementById("dg_salad_fork").addEventListener("mouseout", mouseOutdg_salad_fork);
+function mouseOverdg_salad_fork() {
+  document.getElementById("loc_salad_fork").style.color = "red";
+  document.getElementById("loc_salad_fork").style.fontSize = "24px";
+  document.getElementById("rot_salad_fork").style.color = "red";
+  document.getElementById("rot_salad_fork").style.fontSize = "24px";
+}
+function mouseOutdg_salad_fork() {
+  document.getElementById("loc_salad_fork").style.color = "black";
+  document.getElementById("loc_salad_fork").style.fontSize = "16px";
+  document.getElementById("rot_salad_fork").style.color = "black";
+  document.getElementById("rot_salad_fork").style.fontSize = "16px";
+}
+
+
+document.getElementById("dg_salad_knife").addEventListener("mouseover", mouseOverdg_salad_knife);
+document.getElementById("dg_salad_knife").addEventListener("mouseout", mouseOutdg_salad_knife);
+function mouseOverdg_salad_knife() {
+  document.getElementById("loc_salad_knife").style.color = "red";
+  document.getElementById("loc_salad_knife").style.fontSize = "24px";
+  document.getElementById("rot_salad_knife").style.color = "red";
+  document.getElementById("rot_salad_knife").style.fontSize = "24px";
+}
+function mouseOutdg_salad_knife() {
+  document.getElementById("loc_salad_knife").style.color = "black";
+  document.getElementById("loc_salad_knife").style.fontSize = "16px";
+  document.getElementById("rot_salad_knife").style.color = "black";
+  document.getElementById("rot_salad_knife").style.fontSize = "16px";
+}
+
+
+document.getElementById("dg_soup_spoon").addEventListener("mouseover", mouseOverdg_soup_spoon);
+document.getElementById("dg_soup_spoon").addEventListener("mouseout", mouseOutdg_soup_spoon);
+function mouseOverdg_soup_spoon() {
+  document.getElementById("loc_soup_spoon").style.color = "red";
+  document.getElementById("loc_soup_spoon").style.fontSize = "24px";
+  document.getElementById("rot_soup_spoon").style.color = "red";
+  document.getElementById("rot_soup_spoon").style.fontSize = "24px";
+}
+function mouseOutdg_soup_spoon() {
+  document.getElementById("loc_soup_spoon").style.color = "black";
+  document.getElementById("loc_soup_spoon").style.fontSize = "16px";
+  document.getElementById("rot_soup_spoon").style.color = "black";
+  document.getElementById("rot_soup_spoon").style.fontSize = "16px";
+}
+
+function _extract_url_string(url, key, defaultValue) {
+    var name = key
+    key = key.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regexS = "[\\?&]" + key + "=([^&#]*)";
+    var regex = new RegExp(regexS);
+    var results = regex.exec(url) || ["", defaultValue]
+
+    return results[1]
+}
+
+function get_assignmentId_from_url(url) {
+    var assignmentId = _extract_url_string(url, 'assignmentId', 'assignmentId_not_found')
+    console.log('assignmentId', assignmentId)
+
+    return assignmentId
+}
+
+function detect_sandbox_mode(url) {
+    var submitToURL = _extract_url_string(url, 'turkSubmitTo', 'https://www.mturk.com')
+    console.log('submittoURL', submitToURL)
+    try {
+        if (submitToURL.indexOf('workersandbox') != -1) {
+            var inSandboxMode = true
+        } else {
+            var inSandboxMode = false
+        }
+    } catch (error) {
+        console.log(error)
+        var inSandboxMode = false
+    }
+    return inSandboxMode
+
+}
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// ~~~~~ Define draggable objects ~~~~~
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+$(function() {
+
+    var offset = 0, xPos = 0, yPos = 0;
+
+    // define draggable objects
+    // for (i = 0; i < things_all.length; i++){
+    //     thing = things_all[i]
+    //     $('#dg_'+thing).draggable({
+    //         containment: "#containment-wrapper",
+    //         stack: "#containment-wrapper div",
+    //         scroll: false,
+    //         drag: function() {
+    //             offset = $(this).position();
+    //             xPos = offset.left;
+    //             yPos = offset.top;
+    //             $("#loc_"+thing).html(names[thing][0]+': (' + xPos + ', ' + yPos + ')');
+    //         }
+    //     });
+    // }
+
+    $('#dg_bread_plate').draggable({
+        containment: "#containment-wrapper",
+        stack: "#containment-wrapper div",
+        scroll: false,
+        drag: function() {
+            dragged = true;
+            offset = $(this).position();
+            xPos = offset.left;
+            yPos = offset.top;
+            $("#loc_bread_plate").html('Bread plate: (' + xPos + ', ' + yPos + ')');
+        }
+    });
+
+    $('#dg_charger').draggable({
+        containment: "#containment-wrapper",
+        stack: "#containment-wrapper div",
+        scroll: false,
+        drag: function() {
+            dragged = true;
+            offset = $(this).position();
+            xPos = offset.left;
+            yPos = offset.top;
+            if (dataobj['videoName']=="table1"){
+                $("#loc_charger").html('Dinner plate: (' + xPos + ', ' + yPos + ')');
+            } else {
+                $("#loc_charger").html('Charger: (' + xPos + ', ' + yPos + ')');
+            }
+
+        }
+    });
+
+    $('#dg_coffee').draggable({
+        containment: "#containment-wrapper",
+        stack: "#containment-wrapper div",
+        scroll: false,
+        drag: function() {
+            dragged = true;
+            offset = $(this).position();
+            xPos = offset.left;
+            yPos = offset.top;
+            $("#loc_coffee").html('Coffee: (' + xPos + ', ' + yPos + ')');
+        }
+    });
+
+    $('#dg_dinner_plate').draggable({
+        containment: "#containment-wrapper",
+        stack: "#containment-wrapper div",
+        scroll: false,
+        drag: function() {
+            dragged = true;
+            offset = $(this).position();
+            xPos = offset.left;
+            yPos = offset.top;
+            if (dataobj['videoName']=="table1"){
+                $("#loc_dinner_plate").html('Salad plate: (' + xPos + ', ' + yPos + ')');
+            } else {
+                $("#loc_dinner_plate").html('Dinner plate: (' + xPos + ', ' + yPos + ')');
+            }
+
+        }
+    });
+
+    $('#dg_napkin').draggable({
+        containment: "#containment-wrapper",
+        stack: "#containment-wrapper div",
+        scroll: false,
+        drag: function() {
+            dragged = true;
+            offset = $(this).position();
+            xPos = offset.left;
+            yPos = offset.top;
+            $("#loc_napkin").html('Napkin: (' + xPos + ', ' + yPos + ')');
+        }
+    });
+
+    $('#dg_water_glass').draggable({
+        containment: "#containment-wrapper",
+        stack: "#containment-wrapper div",
+        scroll: false,
+        drag: function() {
+            dragged = true;
+            offset = $(this).position();
+            xPos = offset.left;
+            yPos = offset.top;
+            $("#loc_water_glass").html('Water glass: (' + xPos + ', ' + yPos + ')');
+        }
+    });
+
+    $('#dg_wine_glass').draggable({
+        containment: "#containment-wrapper",
+        stack: "#containment-wrapper div",
+        scroll: false,
+        drag: function() {
+            dragged = true;
+            offset = $(this).position();
+            xPos = offset.left;
+            yPos = offset.top;
+            $("#loc_wine_glass").html('Wine glass (left): (' + xPos + ', ' + yPos + ')');
+        }
+    });
+
+    $('#dg_wine_glass_1').draggable({
+        containment: "#containment-wrapper",
+        stack: "#containment-wrapper div",
+        scroll: false,
+        drag: function() {
+            dragged = true;
+            offset = $(this).position();
+            xPos = offset.left;
+            yPos = offset.top;
+            $("#loc_wine_glass_1").html('Wine glass (right): (' + xPos + ', ' + yPos + ')');
+        }
+    });
+
+    $('#dg_wine_glass_2').draggable({
+        containment: "#containment-wrapper",
+        stack: "#containment-wrapper div",
+        scroll: false,
+        drag: function() {
+            dragged = true;
+            offset = $(this).position();
+            xPos = offset.left;
+            yPos = offset.top;
+            $("#loc_wine_glass_2").html('Wine glass (middle): (' + xPos + ', ' + yPos + ')');
+        }
+    });
+
+
+
+    $('#dg_butter_knife').draggable({
+        containment: "#containment-wrapper",
+        stack: "#containment-wrapper div",
+        scroll: false,
+        drag: function() {
+            dragged = true;
+            offset = $(this).position();
+            xPos = offset.left;
+            yPos = offset.top;
+            $("#loc_butter_knife").html('Butter knife: (' + xPos + ', ' + yPos + ')');
+        }
+    });
+
+    $('#dg_dessert_fork').draggable({
+        containment: "#containment-wrapper",
+        stack: "#containment-wrapper div",
+        scroll: false,
+        drag: function() {
+            dragged = true;
+            offset = $(this).position();
+            xPos = offset.left;
+            yPos = offset.top;
+            $("#loc_dessert_fork").html('Dessert fork: (' + xPos + ', ' + yPos + ')');
+        }
+    });
+
+    $('#dg_dessert_spoon').draggable({
+        containment: "#containment-wrapper",
+        stack: "#containment-wrapper div",
+        scroll: false,
+        drag: function() {
+            dragged = true;
+            offset = $(this).position();
+            xPos = offset.left;
+            yPos = offset.top;
+            $("#loc_dessert_spoon").html('Dessert spoon: (' + xPos + ', ' + yPos + ')');
+        }
+    });
+
+    $('#dg_dinner_fork').draggable({
+        containment: "#containment-wrapper",
+        stack: "#containment-wrapper div",
+        scroll: false,
+        drag: function() {
+            dragged = true;
+            offset = $(this).position();
+            xPos = offset.left;
+            yPos = offset.top;
+            $("#loc_dinner_fork").html('Dinner fork: (' + xPos + ', ' + yPos + ')');
+        }
+    });
+
+    $('#dg_dinner_knife').draggable({
+        containment: "#containment-wrapper",
+        stack: "#containment-wrapper div",
+        scroll: false,
+        drag: function() {
+            dragged = true;
+            offset = $(this).position();
+            xPos = offset.left;
+            yPos = offset.top;
+            $("#loc_dinner_knife").html('Dinner knife: (' + xPos + ', ' + yPos + ')');
+        }
+    });
+
+    $('#dg_salad_fork').draggable({
+        containment: "#containment-wrapper",
+        stack: "#containment-wrapper div",
+        scroll: false,
+        drag: function() {
+            dragged = true;
+            offset = $(this).position();
+            xPos = offset.left;
+            yPos = offset.top;
+            $("#loc_salad_fork").html('Salad fork: (' + xPos + ', ' + yPos + ')');
+        }
+    });
+
+    $('#dg_salad_knife').draggable({
+        containment: "#containment-wrapper",
+        stack: "#containment-wrapper div",
+        scroll: false,
+        drag: function() {
+            dragged = true;
+            offset = $(this).position();
+            xPos = offset.left;
+            yPos = offset.top;
+            if (dataobj['videoName']=="table5"){
+                console.log('Tea spoon: (' + xPos + ', ' + yPos + ')');
+                $("#loc_salad_knife").html('Tea spoon: (' + xPos + ', ' + yPos + ')');
+            } else {
+                $("#loc_salad_knife").html('Salad knife: (' + xPos + ', ' + yPos + ')');
+            }
+
+        }
+    });
+
+    $('#dg_soup_spoon').draggable({
+        containment: "#containment-wrapper",
+        stack: "#containment-wrapper div",
+        scroll: false,
+        drag: function() {
+            dragged = true;
+            offset = $(this).position();
+            xPos = offset.left;
+            yPos = offset.top;
+            $("#loc_soup_spoon").html('Soup spoon: (' + xPos + ', ' + yPos + ')');
+        }
+    });
+});
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// ~~~~~ Define instructions ~~~~~
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+// var instructions = [
+//     "put the knife on the right of the plate",
+//     "move the fork above the plate",
+//     // "put the fork between the plate and the knife",
+//     "you add the knife below the plate",
+//     "fork on the plate"
+// ];
+
+function rand(min, max) { return Math.floor(Math.random() * (max - min) + min); }
+
+function initiateTable() {
+
+    // initiate rotatables
+    // for (i = 0; i < things_rotatable.length; i++){
+    //     thing = things_rotatable[i]
+    //     $('#rt_'+thing).rotatable({
+    //         stop: function(event, ui) {
+    //                 $("#rot_"+thing).html(names[thing][0]+': '+ui.angle.stop / Math.PI * 180)
+    //             },
+    //         }
+    //     );
+    //     $("#rot_"+thing).html(names[thing][0]+': ')
+    // }
+    $('#rt_butter_knife').rotatable({
+      stop: function(event, ui) {
+          $("#rot_butter_knife").html('Butter knife: '+ui.angle.stop / Math.PI * 180)
+          dragged = true;
+        },
+      }
+    );
+    $("#rot_butter_knife").html('Butter knife: ')
+
+    $('#rt_dessert_fork').rotatable({
+      stop: function(event, ui) {
+          $("#rot_dessert_fork").html('Dessert fork: '+ui.angle.stop / Math.PI * 180)
+          dragged = true;
+        },
+      }
+    );
+    $("#rot_dessert_fork").html('Dessert fork: ')
+
+    $('#rt_dessert_spoon').rotatable({
+      stop: function(event, ui) {
+          $("#rot_dessert_spoon").html('Dessert spoon: '+ui.angle.stop / Math.PI * 180)
+          dragged = true;
+        },
+      }
+    );
+    $("#rot_dessert_spoon").html('Dessert spoon: ')
+
+    $('#rt_dinner_fork').rotatable({
+      stop: function(event, ui) {
+          $("#rot_dinner_fork").html('Dinner fork: '+ui.angle.stop / Math.PI * 180)
+          dragged = true;
+        },
+      }
+    );
+    $("#rot_dinner_fork").html('Dinner fork: ')
+
+    $('#rt_dinner_knife').rotatable({
+      stop: function(event, ui) {
+          $("#rot_dinner_knife").html('Dinner knife: '+ui.angle.stop / Math.PI * 180)
+          dragged = true;
+        },
+      }
+    );
+    $("#rot_dinner_knife").html('Dinner knife: ')
+
+    $('#rt_salad_fork').rotatable({
+      stop: function(event, ui) {
+          $("#rot_salad_fork").html('Salad fork: '+ui.angle.stop / Math.PI * 180)
+          dragged = true;
+        },
+      }
+    );
+    $("#rot_salad_fork").html('Salad fork: ')
+
+    $('#rt_salad_knife').rotatable({
+      stop: function(event, ui) {
+          if (dataobj['videoName']=="table5"){
+              $("#rot_salad_knife").html('Tea spoon: '+ui.angle.stop / Math.PI * 180)
+          } else {
+              $("#rot_salad_knife").html('Salad knife: '+ui.angle.stop / Math.PI * 180)
+          }
+          dragged = true;
+        },
+      }
+    );
+    if (dataobj['videoName']=="table5"){
+        $("#rot_salad_knife").html('Tea spoon: ')
+    } else {
+        $("#rot_salad_knife").html('Salad knife: ')
+    }
+
+    $('#rt_soup_spoon').rotatable({
+      stop: function(event, ui) {
+          $("#rot_soup_spoon").html('Soup spoon: '+ui.angle.stop / Math.PI * 180)
+          dragged = true;
+        },
+      }
+    );
+    $("#rot_soup_spoon").html('Soup spoon: ')
+
+    var yRand = 0, xRand = 0;
+
+    // console.log("original (w): " + document.getElementById("img_table_cloth").width);
+    // console.log("original (h): " + document.getElementById("img_table_cloth").height);
+    thing="table_cloth"
+    if(!haveInitiated) {
+        // console.log("-------------------------");
+        // console.log(thing);
+        // console.log("original (w): " + document.getElementById("img_"+thing).width);
+        // console.log("original (h): " + document.getElementById("img_"+thing).height);
+        // width = document.getElementById("img_"+thing).width * configs[thing][2]
+        // height = document.getElementById("img_"+thing).height * configs[thing][3]
+        $("#img_"+thing).css({ 'width': configs[thing][2], 'height': configs[thing][3]});
+        // console.log("factor (w): " + configs[thing][2]);
+        // console.log("factor (h): " + configs[thing][3]);
+        // console.log("result (w): " + document.getElementById("img_"+thing).width);
+        // console.log("result (h): " + document.getElementById("img_"+thing).height);
+    }
+    $("#dg_"+thing).css({ 'top': configs[thing][1], 'left': configs[thing][0]});
+
+
+    // initiate tables occording to table configure
+    for (i = 0; i < things_all.length; i++){
+        thing = things_all[i]
+        xRand = configs[thing][0]
+        yRand = configs[thing][1]
+
+        if (dataobj['videoName']=="table5" && thing=="salad_knife"){
+            console.log("Tea spoon");
+            $("#loc_"+thing).html('Tea spoon: (' + xRand + ', ' + yRand + ')');
+            $("#img_"+thing).attr('title', "Tea spoon");
+            $("#img_"+thing).attr("src", "https://s3.amazonaws.com/nusrls/objects/Soup Spoon.png");
+        } else if (dataobj['videoName']=="table1" && thing=="dinner_plate") {
+            $("#loc_"+thing).html('Salad plate: (' + xRand + ', ' + yRand + ')');
+            $("#img_"+thing).attr('title', "Salad plate");
+        } else if (dataobj['videoName']=="table1" && thing=="charger") {
+            $("#loc_"+thing).html('Dinner plate: (' + xRand + ', ' + yRand + ')');
+            $("#img_"+thing).attr('title', 'Dinner plate');
+        } else {
+            $("#loc_"+thing).html(names[thing][0]+': (' + xRand + ', ' + yRand + ')');
+        }
+
+        if(!haveInitiated) {
+            // console.log("-------------------------");
+            // console.log(thing);
+            // console.log("original (w): " + document.getElementById("img_"+thing).width);
+            // console.log("original (h): " + document.getElementById("img_"+thing).height);
+            width = configs[thing][2]
+            height = configs[thing][3]
+              if (dataobj['videoName']=="table5" && thing=="salad_knife"){
+                  width = width * 1.4;
+              }
+            $("#img_"+thing).css({ 'width': width, 'height': height});
+            // console.log("factor (w): " + configs[thing][2]);
+            // console.log("factor (h): " + configs[thing][3]);
+            // console.log("result (w): " + document.getElementById("img_"+thing).width);
+            // console.log("result (h): " + document.getElementById("img_"+thing).height);
+        }
+        $("#dg_"+thing).css({ 'top': yRand, 'left': xRand});
+
+        if(existsIn(thing, things_rotatable)){
+            document.getElementById('rt_'+thing).style.transform = 'none'
+        }
+    }
+
+    haveInitiated = true;
+
+
+}
+
+function updateTime() {
+    var toPrint = "";
+    for (i=0; i<t; i++){
+        toPrint += (time[i+1] - time[i])/1000 + "___"
+    }
+    $("#time").html(toPrint);
+}
+
+function updateInstruction() {
+    // $("#instruction").html((t+1)+ " out of "+ instructions.length +" : "+instructions[t]);
+    $("#instruction").html(instructions[t].toLowerCase());
+    document.getElementById("no").innerHTML = "Sentence No.: "+(t+1)+" / "+instructions.length;
+    document.getElementById("myBar").style.width = (t/instructions.length*100) + '%';
+}
+
+// Have subject read instructions and click button to close
+$('#previous_button').click(function() {
+
+    if (hideInstruction){
+       hideInstruction = false;
+       document.getElementById('next_button').style.visibility = 'visible'
+    }
+
+    t--;
+    time.pop()
+    updateTime()
+    updateInstruction()
+
+    if (t != 0) {
+
+        var previous_locations = dataobj.locations[t-1]
+        var yRand = 0, xRand = 0;
+
+        // recover previous object positions
+        for (i = 0; i < things_all.length; i++){
+            thing = things_all[i];
+            xRand = previous_locations[names[thing][1]]
+            yRand = previous_locations[names[thing][2]]
+            $("#loc_"+thing).html(names[thing][0]+': (' + xRand + ', ' + yRand + ')');
+            $("#dg_"+thing).css({ 'top': yRand, 'left': xRand });
+            if(existsIn(thing, things_rotatable)){
+                document.getElementById('rt_'+thing).style.transform = 'rotate(' + previous_locations[names[thing][3]] + 'deg)'
+                $("#rot_"+thing).html(names[thing][0]+': '+previous_locations[names[thing][3]])
+            }
+        }
+
+    } else {
+        document.getElementById('previous_button').style.visibility = 'hidden'
+        haveInitiated = true;
+        initiateTable()
+    }
+
+    dataobj.trialNumber.pop()
+    dataobj.locations.pop()
+
+    refreshPhotos()
+});
+
+function rotatedAfter(thing){
+    if (existsIn(thing, things_rotatable)){
+        if(document.getElementById("rot_"+thing).innerHTML.length > 17){
+            return true;
+        }
+    }
+    return false;
+}
+
+function movedAfter(left_before, top_before, offset){
+    return moved(left_before, top_before, offset.left, offset.top)
+}
+
+function moved(left_before, top_before, left_after, top_after){
+    if (Math.abs(left_before-left_after) + Math.abs(top_before-top_after) < 2){
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function refreshPhotos(){
+
+    // set moved objects to be still
+    for (i = 0; i < things_all.length; i++){
+        thing = things_all[i]
+        offset = $('#dg_'+thing).position();
+        if (movedAfter(configs[thing][0],configs[thing][1],offset) || rotatedAfter(thing)){
+            $('#dg_'+thing).draggable( 'disable' )
+            $('#img_'+thing).attr('src', $('#img_'+thing).attr('src').replace(".png","_gray.png").replace("_gray_gray","_gray"));
+            // $("#img_"+thing).css({ 'filter': "grayscale(100%)", "-webkit-filter": "grayscale(100%)"});
+            // $("#img_"+thing).css({ 'opacity': "0.5", "filter": "alpha(opacity=50)"});
+            if (existsIn(thing, things_rotatable)){
+                $('#rt_'+thing).rotatable( 'disable' );
+            }
+        } else {
+            $('#dg_'+thing).draggable( 'enable' )
+            $('#img_'+thing).attr('src', $('#img_'+thing).attr('src').replace("_gray",""));
+            if (existsIn(thing, things_rotatable)){
+                $('#rt_'+thing).rotatable( 'enable' );
+            }
+        }
+    }
+
+}
+
+function nothingChanged()
+{
+    var nothingChanged = true
+    console.log("compare "+t+" and "+(t+1));
+    var last = dataobj['locations'][t]
+    var second_last = dataobj['locations'][t-1]
+    for (k = 0; k < last.length; k++ )
+    {
+        if (last[k] != second_last[k])
+        {
+            nothingChanged =  false;
+        }
+    }
+    return nothingChanged;
+}
+
+// Have subject read instructions and click button to close
+$('#next_button').click(function() {
+    refreshPhotos()
+
+    var offset = 0, rotation = "0";
+
+    // record positions of objects
+    for (j = 0; j < things_all.length; j++){
+        thing = things_all[j];
+        offset = $('#dg_'+thing).position();
+        if(existsIn(thing, things_rotatable)){
+            rotation = document.getElementById("rot_"+thing).innerHTML.split(':')[1].trim();
+            if (rotation=="") rotation = "0";
+            offset = $('#dg_'+thing).position();
+        }
+        locations.push(thing, offset.left, offset.top, rotation);
+    }
+
+    // ----------------------
+    // record final position
+    // ----------------------
+    dataobj['trialNumber'].push(t)
+    dataobj['locations'].push(locations)
+
+    console.log("-----------")
+    console.log(dataobj)
+    console.log("-----------")
+    locations = []
+
+    if (t != instructions.length-1) {
+
+        if (t==0){
+            document.getElementById('previous_button').style.visibility = 'visible'
+        }
+
+        if (dragged){
+            document.getElementById('next_button').style.visibility = 'visible'
+        } else {
+            document.getElementById('next_button').style.visibility = 'hidden'
+            hideInstruction = true
+        }
+
+        t++;
+        time.push(new Date().getTime())
+        updateTime()
+
+        dragged = false
+
+        if(hideInstruction){
+            $("#instruction").html("<font style='color:red;'>You have not followed the last instruction.<font>");
+        } else {
+            updateInstruction()
+        }
+
+
+    } else {
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // ~~~~~ Execute submission to Mechanical Turk servers ~~~~~
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // Extract assignment data from the subject's URL
+
+        time.push(new Date().getTime())
+        dataobj['duration'] = time
+        var current_url = window.location.href
+        var assignmentId = get_assignmentId_from_url(current_url)
+        var inSandboxMode = detect_sandbox_mode(current_url)
+
+
+        var data_string = JSON.stringify(dataobj)
+        console.log("-----------")
+        console.log("-----------")
+        console.log("-----------")
+        console.log(data_string)
+
+        // Submit data via POST request
+        document.getElementById("assignmentId").value = assignmentId;
+        document.getElementById("submission_data").value = data_string;
+
+        var submit_url = "https://www.mturk.com/mturk/externalSubmit"
+
+        if (inSandboxMode == true) {
+            var submit_url = "https://workersandbox.mturk.com/mturk/externalSubmit"
+        } else if (inSandboxMode == false) {
+            var submit_url = "https://www.mturk.com/mturk/externalSubmit"
+        }
+        document.getElementById("Mechanictitleurk_SubmissionForm").action = submit_url
+
+        try {
+            // ~~~~~ Uncomment the line below before you upload to mechanical turk ~~~~~
+            document.getElementById("Mechanictitleurk_SubmissionForm").submit();
+            console.log('EXECUTED SUBMISSION TO TURK')
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+});
+
+function existsIn(name, inArr)
+{
+    var answer = false
+    for (k = 0; k < inArr.length; k++ )
+    {
+        if (inArr[k] == name)
+        {
+            answer =  true;
+        }
+    }
+    return answer;
+}
+
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// ~~~~~ Main workflow. Store the results in the variable 'dataobj' ~~~~~
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+var debug = false;
+var dataobj = {}
+dataobj['trialNumber'] = []
+dataobj['locations'] = []
+
+
+// Step 1 -- Read Instruction Files
+// var datafile = 'instructions/ins_'+ Math.floor(Math.random()*3) +'.json';
+var selected_instructions = [15, 17, 18, 111, 114, 185, 188, 236, 237,
+  8, 12, 58, 83, 182, 187, 191, 245,
+  11, 30, 43, 56, 67, 79, 200, 235,
+  16, 28, 124, 131, 146, 157, 229, 249,
+  7, 22, 29, 31, 57, 74, 143, 218]
+
+
+var datanumber = Math.floor(Math.random()*selected_instructions.length)
+var datafile = 'instructions/data_'+ selected_instructions[datanumber] +'.json';
+dataobj['instructionName'] = datafile;
+console.log(datafile)
+
+$.ajaxSettings.async = false;
+$.getJSON(datafile, function(data) {
+    dataobj['videoName'] = data.video_name;
+    dataobj['instructions'] = data.instructions;
+});
+
+
+if (debug) {
+    dataobj['videoName'] = "table3"
+}
+
+video_names = {
+  "table1": 1,
+  "table2": 2,
+  "table3": 3,
+  "table4": 4,
+  "table5": 5
+}
+
+// Step 2 -- Read Locations Files
+configs = {}
+var configuernumber = video_names[dataobj['videoName']] + "0"+ Math.floor(Math.random()*9);
+var configfile = 'table_configs_new/configs_' + configuernumber +'.json';
+console.log(configfile)
+
+if (debug){
+    document.getElementById('debug').style.display = 'table';
+    $("#configName").html(datanumber + " ___ " + configuernumber);
+    for(i=0; i<6; i++){
+        document.getElementById('instructions_splash_'+i).style.visibility = 'hidden'
+    }
+}
+
+dataobj['configName'] = configfile;
+
+$.getJSON( configfile, function( data ) {
+  $.each( data, function( key, val ) {
+      configs[key] = [val[0], val[1], val[2], val[3]]
+  });
+});
+
+// Step 3 -- Read Object Names and Indices for previous_locations
+names = {}
+$.getJSON( "objects.json", function( data ) {
+  $.each( data, function( key, val ) {
+      names[key] = [val[0], val[1], val[2], val[3]]
+  });
+});
+$.ajaxSettings.async = true;
+
+
+var instructions = dataobj.instructions;
+// instructions = ["haha", "haha"];
+// console.log(instructions)
+
+// ----------------------
+// initialize and record new position
+// ----------------------
+
+var locations = [];
+initiateTable();
+var t = 0;
+var hideInstruction = false;
+var dragged = false;
+var haveInitiated = false;
+
+var time = []
+time.push(new Date().getTime())
+
+updateInstruction()
+
+</script>
+
+</html>

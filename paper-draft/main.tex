@@ -1,0 +1,369 @@
+\documentclass[conference]{IEEEtran}
+\usepackage{times}
+
+% numbers option provides compact numerical references in the text. 
+\usepackage[noadjust]{cite}
+\usepackage{multicol}
+\usepackage[bookmarks=true]{hyperref}
+
+\usepackage{booktabs}
+\usepackage{caption} 
+
+\usepackage{graphicx}
+\graphicspath{ {figures/} }
+
+\usepackage{color}
+\definecolor{red}{RGB}{231, 76, 60}
+\definecolor{blue}{RGB}{52, 152, 219}
+\definecolor{green}{RGB}{39, 174, 96} % #1abc9c rgb(39, 174, 96)
+\definecolor{lightgray}{RGB}{240, 240, 240}
+\definecolor{lightcyan}{RGB}{199, 246, 246} 
+\definecolor{lightyellow}{RGB}{255, 244, 197}
+
+% Suggested markup --------------------------------------------
+% add paragraph marked as follows when making changes
+\def\zy#1 \par{\noindent\textcolor{red}{\textbf{Zhutian:} #1}\par}
+\def\ds#1 \par{\noindent\textcolor{blue}{\textbf{David:} #1}\par}
+\def\wsl#1 \par{\noindent\textcolor{green}{\textbf{Wee Sun:} #1}\par}
+
+% To acknowledge comment noted
+\def\ok#1 \par{}
+
+\newenvironment{zynew}
+  {\medskip\color{red}{\noindent\textbf{Zhutian:}\par}}
+  {\medskip}
+\newenvironment{dsnew}
+  {\medskip\color{blue}{\noindent\textbf{David:}\par}}
+  {\medskip}
+\newenvironment{wlnew}
+  {\medskip\color{green}{\noindent\textbf{Wee Sun:}\par}}
+  {\medskip}
+\newenvironment*{oknew}{}{}
+
+\usepackage{mdframed}
+\newenvironment{towrite}%
+  {\begin{mdframed}[backgroundcolor=lightgray,
+  					topline=false,
+  					rightline=false,
+  					leftline=false,
+  					bottomline=false
+%  					]\bigskip \textit{\color{gray}{To Edit\\\\}}}%
+  					]\smallskip}%
+  {\smallskip\end{mdframed}}
+
+
+\newenvironment{statement1}%
+  {\begin{mdframed}[backgroundcolor=lightcyan,
+  					topline=false,
+  					rightline=false,
+  					leftline=false,
+  					bottomline=false
+%  					]\bigskip \textit{\color{gray}{To Edit\\\\}}}%
+  					]\smallskip}%\medskip}%
+  {\smallskip\end{mdframed}}
+  
+  \newenvironment{statement2}%
+  {\begin{mdframed}[backgroundcolor=lightyellow,
+  					topline=false,
+  					rightline=false,
+  					leftline=false,
+  					bottomline=false
+%  					]\bigskip \textit{\color{gray}{To Edit\\\\}}}%
+  					]\smallskip}%\medskip}%
+  {\smallskip\end{mdframed}}
+  
+
+\begin{document}
+
+\title{ShowNTell: Visual Attention Prediction \\for Robot Spatial Arrangement Tasks}
+
+%\author{\authorblockN{Michael Shell}
+%\authorblockA{School of Electrical and\\Computer Engineering\\
+%Georgia Institute of Technology\\
+%Atlanta, Georgia 30332--0250\\
+%Email: mshell@ece.gatech.edu}
+%\and
+%\authorblockN{Homer Simpson}
+%\authorblockA{Twentieth Century Fox\\
+%Springfield, USA\\
+%Email: homer@thesimpsons.com}
+%\and
+%\authorblockN{James Kirk\\ and Montgomery Scott}
+%\authorblockA{Starfleet Academy\\
+%San Francisco, California 96678-2391\\
+%Telephone: (800) 555--1212\\
+%Fax: (888) 555--1212}}
+
+
+\maketitle
+
+\section*{Annotations}
+
+%\ds this is an example in-line comment. ($\backslash$ds)
+%
+%\wsl this is an example in-line comment. ($\backslash$wsl)
+%
+%\zy this is an example in-line comment. ($\backslash$zy)
+
+\ok this is an example in-line comment noted by the another author.
+
+%\begin{zynew}
+%	this is an example new paragraph/subsection added.
+%\end{zynew}
+
+We thought of two different ways to formulate the problem:
+
+\begin{statement1}
+Paragraphs for Problem Statement version A
+\end{statement1}
+
+\begin{statement2}
+Paragraphs for Problem Statement version B
+\end{statement2}
+
+\begin{towrite}
+Paragraphs to write	
+\end{towrite}
+
+
+% \IEEEpeerreviewmaketitle
+
+\section{Introduction}
+
+\color{red} Motivations \color{black} For robots to live and work with us, we want them to act out what they hear according to what they see. However, many instructions involving spatial references are imprecise. For example, when asked to "put the coffee cup on the right side of the plate," how much right to the plate should the robot move to? How about "on the right side of the laptop?" Empirically, the areas that are considered appropriate for the two reference objects should be different. The sets should depend on the task and domain specified by the instruction, as well as the physical configuration and limitation indicated in the visual observation. We consider this language-directed visual prediction fundamental to robot spatial arrangement tasks.
+
+\begin{statement1}
+\color{red} Objective and scope [A] \color{black} In this paper, we argue that both natural language instructions and demonstration image sequences are essential in developing the robot's visual prediction ability for following instructions. Instructions are not only the human way of communicating intentions but also provide context and constraints for robots to predict visual attention more accurately. Visual observations are not only the background for target objects, but they also provide other objects and space as factors to affect the attention prediction.
+\end{statement1}
+
+\begin{statement2}
+\color{red} Objective and scope [B] \color{black} In this paper, we argue that infusing prior knowledge about spatial relationships makes it more data-efficient to learn visual prediction ability. If we assume spatial relationships are learned, learning to predict visual attention based on spatial instructions becomes fine-tuning the prediction to specific tasks and domains.
+\end{statement2}
+
+\color{red} Proposed model \color{black} We present ShowNTell, a neural network model that predicts visual attention given natural language instructions in spatial arrangement tasks. Much like Neural Module Networks \cite{andreas2016neural}, ShowNTell dynamically lay out a deep network according to linguistic triples that are translated from natural language instructions. The network takes in the image before the action indicated by the natural language instruction is performed, and outputs an attention map that marks the visual goal for the action. The regions with the highest probability on the attention map and the linguistic triples are used by the robot to execute the instructions. The modules of the network are reusable and are trained together end-to-end. 
+
+
+\color{red} Technical novelty \color{black} In contrast to the sequence-to-sequence models used in instruction grounding and unlike \cite{andreas2016neural} that uses parse tree to represent semantics, our model uses linguistic triples as structured representations of sentence semantics. Triples with the form \texttt{<subject relation object>} are obtained using the START parser, enabling important spatial relations and object properties be singled out for encoding prior knowledge about spatial relationships and references shared between instructions.
+
+
+\begin{statement1}
+\color{red} Implementation and evaluation [A] \color{black} We train ShowNTell in the task of setting dinner tables. The training images show the top-down view of the table. The instructions are provided by humans who have little prior knowledge in table-setting and are complex with sequences and clauses. ShowNTell can successfully apply the visual prediction ability to unseen objects such as in setting up a tea ceremony. It can also transfer the ability to other domains such as setting up an office table with little training data.
+
+\end{statement1}
+
+\begin{statement2}
+\color{red} Implementation and evaluation [B] \color{black} We train ShowNTell in the task of table-setting. The training images show a top-down view of the table. First, we train the model with images and instructions for learning spatial relationships such as "left" and "between." Then we use table-setting image sequences and instructions provided by humans with little prior knowledge in table-setting. Compared to the model that is directly trained from scratch, our ShowNTell model can achieve the same performance with XX\% fewer data. Moreover, ShowNTell model has better accuracy in applying the visual prediction ability to unseen objects such as in setting up a tea ceremony. It can also transfer the ability to other domains such as setting up an office table with less training data.
+\end{statement2}
+
+\color{red} Contributions \color{black} The contributions of this project include:
+\begin{itemize}
+	\item On the task level, we designed a model that predicts visual attention on visual observations given natural language instructions. The model is object general and easy to transfer to other domains.
+	\item On the technical level, we designed a neural network model that combines the structured symbolic representation of semantics and data-driven approach for learning a robust system.
+	\item We collected a data set of instructions with corresponding visual demonstrations for the table-setting task. 
+	\item Implemented a simulated robot arm that can properly set up tables according to different sequences of user instructions, as judged by humans. 
+	\end{itemize}
+
+
+
+
+
+
+\begin{towrite}
+\section{Related Work}
+
+\color{red} Past works and gap \color{black} Mapping instructions and visual observations to actions have been explored in the past two years \cite{misra2018mapping, blukis2018following, kitaev2017misty, misra2017mapping, bisk2018learning, chaplot2018gated, janner2018representation, xiong2018scheduled, sinha2018attention}. However, most of projects focus on blocks world task in 2D \cite{misra2017mapping, janner2018representation, xiong2018scheduled, sinha2018attention} or 3D \cite{kitaev2017misty, bisk2018learning} that involve grids and squares. Among those tasks that involve simulated real objects \cite{misra2018mapping, chaplot2018gated, blukis2018following}, none have focused on spatial arrangement tasks but navigation tasks, with \cite{misra2018mapping} and \cite{chaplot2018gated} not concerning about spatial references.
+
+%\cite{janner2018representation}
+\subsection{Visual Goal Prediction}
+
+\subsection{Grounding Spatial Relations}
+
+
+\subsection{Neural Modular Networks}
+
+\end{towrite}
+
+\section{Problem Formulation}
+
+\color{red} Technical problem \color{black} The ability to predict visual goals can be formulated as a mapping from a natural language instruction to a region in visual observation. Formally, each training datum can be thought of as a 3-tuple ($x, W, y$):
+
+\begin{itemize}
+  \item $x$: the input natural language instruction
+  \item $W$: the input visual observation of the world before $x$ is followed
+  \item $y$: the output visual goal, the most likely region referred in the instruction $x$. 
+\end{itemize}
+
+\subsection{Table-Setting Task}
+
+\color{red} Task \color{black} The goal of a table-setting task is to evaluate how well an agent can execute sequences of spatial arrangement instructions to assimilate how humans might execute them. The task is evaluated by a subjective judgement score of how the arrangement is proper.
+
+% ---------- Figure
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.40\textwidth]{sample}
+\end{center}
+\caption{Two different arrangements of the table-setting tasks.}
+\label{eg-arrangement}
+\end{figure}
+% ---------- end Figure
+
+%It yields three challenges. First, the agent should understand the visual goals indicated by the individual instructions. Second, the agent should understand complex forms of instructions involving sequences and conditionals, such as .... both in resolving object references in sequences of instructions, related conditionals and
+
+\color{red} Task decomposition \color{black} Setting up a table may involve 8-15 objects, thus a similar number of steps. Each step is likely to involve at least one reference object and a spatial relationship. Figure \ref{eg-arrangement} shows two sample final arrangements and the sequence of objects added according to two online video tutorials. 
+
+
+\subsection{Table-Setting Dataset}
+
+The Table-Setting Dataset we collected for this paper contains both instruction and visual observation data in a simulated table environment powered by Unity. \color{red} Assumptions \color{black} The table is observed by top-down orthogonal camera, thus 3D spatial relations like \textit{behind} are not considered and \textit{above} is interpreted in 2D plane. 
+
+% ---------- Figure
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.40\textwidth]{sample}
+\end{center}
+\caption{Crowdsourced instructions for one table-setting step.}
+\label{eg-instructions}
+\end{figure}
+% ---------- end Figure
+
+\color{red} Collect $x$ data \color{black} To train the model with real instructions that humans naturally use to describe the table-setting steps, we first crowdsource sequences of instructions through Amazon Mechanical Turk. The instruction workers were given pairs of screenshots, which are the before and after scenes of an action, and were asked to describe the actions in terms of natural language imperatives. The screenshots came from five different online table-setting tutorial videos. The objects in the vicinity of the reference region are labeled. This collection results in 100 caption-like sequences of instructions for each of the five table-setting videos, including approximately 5000 instructions $x$. Figure \ref{eg-instructions} shows a list of sample instructions collected from one pair of before and after scenes.
+
+\color{red} Collect $W$ data \color{black} Then, to increase the variation of demonstration table-setting visual observations, each sequence of instructions was used to instruct about 100 human workers to set up the table by dragging and rotating objects on a webpage. To improve the quality of data, human workers are shown example table-setting photos as a training process for them to be table-setting experts.
+
+After these two rounds of data collection, we have 500,000 3-tuples for training. Table \ref{data-stats} shows the dataset statistics and Table \ref{data-analysis} presents the qualitative analysis of the instructions.
+
+
+%\cite{misra2018mapping}
+\begin{table}[]
+\caption{Summary statistics of the instruction data}\label{data-stats}
+\begin{center}
+\begin{tabular}{@{}|l|l|@{}}
+\toprule
+Dataset Statistic                             & Count \\ \midrule
+Number of instructions                        &       \\
+Average number of instructions for each video &       \\
+Average length of instructions                &       \\
+Average number of actions per instruction     &       \\ \bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+
+\begin{table}[]
+\caption{Qualitative analysis of Table-Setting instructions. \small{(The count indicates the occurrences in a sample of 200 instructions)}}\label{data-analysis}
+\begin{center}
+\begin{tabular}{@{}|l|l|l|@{}}
+\toprule
+Category                              & Count & Example \\ \midrule
+Spatial relations with one object     &       &         \\
+Spatial relations with two objects    &       &         \\
+Conjunctions of two spatial relations &       &         \\
+Co-reference                          &       &         \\
+Comparatives                          &       &         \\ \bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+
+\section{ShowNTell for Visual Goal Prediction}
+
+% ---------- Figure
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.40\textwidth]{sample}
+\end{center}
+\caption{A schematic representation of our proposed model}
+\label{architecture}
+\end{figure}
+% ---------- end Figure
+
+
+We propose the neural modular networks for visual goal prediction (Figure \ref{architecture}). In this section, we will use instruction \textit{put the fork on the right of the plate} to explain the architecture.
+
+\begin{towrite}
+\subsection{Modules}
+%\cite{hudson2018compositional}
+%\cite{blukis2018following}
+
+\subsection{From images to embeddings}
+
+\subsection{From instruction to triples}
+
+\subsection{From triples to networks}
+
+\subsection{Predicting visual goals}
+
+\subsection{From predictions to actions}
+
+\section{Experiment Setup}
+
+\subsection{Implementation details}
+
+Our model was trained end-to-end using PyTorch with a batch size of 32. The visual observation $W$ has dimension 224 $\times$ 224 $\times$ 3 (height, width, channel). The first coevolutionary layer uses a filter of size 5 $\times$ 5 and the second of size 3 $\times$ 5, each followed by a \texttt{tanh}. The final prediction layer is a 56 $\times$ 56 filter that ...
+
+\subsection{Baseline Approaches}
+
+We compare our model with the following models:
+
+\subsubsection{Without linguistic triples}
+By replacing linguistic triples with LSTM encodings, ...
+
+\subsubsection{Without modules}
+Using Compositional Attention Networks \cite{hudson2018compositional}
+	
+\section{Evaluation}
+
+\subsection{Interpretability}
+%\cite{bisk2018learning}
+
+\subsubsection{Visualizing processes}
+
+\subsubsection{Comparing linguistic paraphrases}
+
+\subsection{Example Pheonomena}
+
+In the following example, three instructions for the same step are used to test the model.
+
+
+\end{towrite}
+
+
+
+\section{Expected Partial/Final Outcomes}
+
+\begin{enumerate}
+	\item \textbf{Table-Setting instruction dataset}: 1,000 sequences of natural language instructions that describe how to set a dinner table.
+	\item \textbf{Table-Setting demonstration dataset}: 1,000,000 sequences of pictures showing the steps in setting a dinner table.
+	\item \textbf{Instruction parser}: an LSTM-based language module that takes in natural language instructions and generates linguistic triples.
+	\item \textbf{Visual identifier}: a CNN-based vision module that takes in the scene, masks of the objects, and linguistic triples, then output a map of likelihood 
+	\end{enumerate}
+
+%\section{Experiment Design}
+
+%\section{Conclusion} 
+
+%\section*{Acknowledgments}
+
+
+
+
+%% Use plainnat to work nicely with natbib. 
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}
+
+
+
+% Rewrite abstract the last
+%\begin{abstract}
+%\color{red} Aim \color{black} This paper presents ShowNTell, a deep recurrent neural network model that imagines execution effects of natural language instructions for spatial arrangement. \color{red} Challenge/Issue \color{black} The key challenge of spatial arrangement tasks, such as setting up a dinner table, is to achieve the spatial relations given in the natural language instructions after considering both local objects and global context. \color{red} Approach \color{black} To achieve this, we combine the learning-by-demonstration and learning-by-instruction approach to robot procedural learning. \color{red} Methods \color{black} We train ShowNTell on annotated pairs of before-after images of table-setting steps and test it on a simulated robot. \color{red} Results \color{black} Experiments suggest that ShowNTell is able to properly execute not only natural language instructions for setting up a table, but also with generalized objects in generalized tasks.
+%\end{abstract}
+
+
+%Traditionally, there are two ways to teach a robot: one by feeding millions of demonstration examples, either through ... or videos; the other by ... 
+
+
+%However, it's data-uneconomical to learn executing the whole complex tasks such as table-setting from demonstrations. If we can break the complex tasks down to reusable steps and characterize them by symbolic descriptions, we will not only save training examples, but also learn to imagine the fundamental spatial relations common to all similar complex tasks. Also, it's not enough to learn such tasks from instructions because the robot needs a visual intuition to properly achieve the spatial relations in instructions after considering both the local objects and the global context. Modeling such an intuition without empirical training examples is deemed to produce object-specific and task-specific ability.
+
+%In this paper, we argue that for robots to learn fundamental and generalizable abilities, we should combine learning-from-demonstrations and learning-from-instructions. Our approach makes intuitive sense because we humans mostly learn with the combination of show and tell, such as when we learn how to cook, how to drive, or how to put on makeup. Without instructions accompanying the demonstrations, we cannot directly know the goals and requirements of individual steps; without demonstrations illustrating the instructions, we cannot perform with the intricate details that are missing in the instructions and that are dependent on the particular visual context.

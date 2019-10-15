@@ -1,0 +1,588 @@
+<!doctype html>
+
+<head>
+
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>Give an instruction</title>
+
+    <form style="display: none;" id="MechanicalTurk_SubmissionForm" action="https://www.mturk.com/mturk/externalSubmit" method="post">
+        <input type="text" name="submission_data" id="submission_data" value="">
+        <input type="text" name="assignmentId" id="assignmentId" value="">
+        <input type="text" name="hitId" id="hitId" value="">
+    </form>
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <style>
+        img { max-width: 100%; max-height: 500px; }
+        .column {float: left; width: 40%; margin: 10px 0.5%; box-sizing: border-box;}
+        .row::after { content: ""; clear: both; display: table; text-align: center; padding-left:10%;}
+        .instruction { text-align: center; font-size: 2em; font-weight: bold; margin-top: 0; padding-left: 5px; color: white; z-index: 20; position: absolute;}
+        .instructions_splash { position: fixed; top:50%; left:50%; width:70%; background-color:#E4E4E4; transform:translate(-50%,-50%); border-style:solid; border-color:gray; border-width:3px; z-index: 70; font-size: 30px; padding: 50px;}
+        .ok_button { font-size : 22px; width: 30%; height: 60px; text-align: center; margin: 10px auto; display: table;}
+        .field { width: 600px; height:30px; font-size: 20px; }
+
+        #containment-wrapper { position: relative; text-align: center; }
+        #before { width: 100%; visibility: visible; position: absolute; left: 0px; top: 0px; }
+        #after { width: 100%; visibility: hidden; position: absolute; left: 0px; top: 0px; }
+        #submit_button { width: 500px; height:60px; font-size: 25px; text-align: center; margin: 20px; margin-top: 0; visibility: hidden;}
+        #check_button { width: 500px; height:60px; font-size: 25px; text-align: center; margin: 20px; margin-top: 0; }
+        #previous_button { margin: 0 auto; width: 150px; height:60px; font-size: 25px; text-align: center; visibility: hidden;}
+        #update_button { margin: 0 auto; width: 150px; height:60px; font-size: 25px; text-align: center; visibility: hidden;}
+        #next_button { margin: 0 auto; width: 150px; height:60px; font-size: 25px; text-align: center; }
+        #change_button { font-size : 22px; width: 30%; height: 60px; text-align: center; margin: 10px auto; }
+    </style>
+
+</head>
+
+<body>
+
+
+    <!-- pop out instructions describing the task  - Writing phase -->
+
+    <div id='instructions_splash_5' class='instructions_splash'>
+        <p style="margin-top:0px;">
+            To describe the orientations of objects accurately and precisely, you can use <strong><font style="color:#3EA6CC;">"vertically/horizontally," "point upward," </font></strong> etc.
+
+            <br><br> <font color="red"> By default, objects are oriented vertically. </font>
+
+            <div style="margin:8px auto; ">
+              <img src="https://s3.amazonaws.com/nusrls/tutorial/5+orientation+careful.gif"/>
+            </div>
+        </p>
+        <button type="button" id='start_button_5' class='ok_button'><strong>Let's Start</strong></button>
+    </div>
+
+
+    <div id='instructions_splash_4' class='instructions_splash'>
+        <p >
+            Include <font color="red"><strong>Orientations</strong></font> in your instructions, like that <font style="color:coral;"><strong> on the right.</strong></font>
+
+            <div>
+              <div class="row">
+                <div class="column" style="padding:8px; padding-bottom:4px; background-color: #3EA6CC; width: 46%; margin:0; margin-right:3%;">
+                  <img src="https://s3.amazonaws.com/nusrls/tutorial/22+why+previous+-+wrong+new.gif"/>
+                </div>
+                <div class="column" style="padding:8px; padding-bottom:4px; background-color: coral; width: 46%; margin:0;">
+                  <img src="https://s3.amazonaws.com/nusrls/tutorial/22+why+previous+-+right+new.gif"/>
+                </div>
+              </div>
+            </div>
+
+        </p>
+        <button type="button" id='start_button_4' class='ok_button'><strong>I Understand</strong></button>
+    </div>
+
+
+    <div id='instructions_splash_3' class='instructions_splash'>
+        <p>
+            The <font style="color:#3EA6CC;"><strong>instruction on the left</strong></font> is less precise than that <font style="color:coral;"><strong> on the right</strong></font>.<br>
+            <div>
+              <div class="row">
+                <div class="column" style="padding:8px; padding-bottom:4px; background-color: #3EA6CC; width: 46%; margin:0; margin-right:3%;">
+                  <img src="https://s3.amazonaws.com/nusrls/tutorial/21+why+previous+-+wrong+new.gif"/>
+                </div>
+                <div class="column" style="padding:8px; padding-bottom:4px; background-color: coral; width: 46%; margin:0;">
+                  <img src="https://s3.amazonaws.com/nusrls/tutorial/21+why+previous+-+right.gif"/>
+                </div>
+              </div>
+            </div>
+
+        </p>
+        <button type="button" id='start_button_3' class='ok_button'><strong>I Understand</strong></button>
+    </div>
+
+
+    <div id='instructions_splash_2' class="instructions_splash">
+        <p style='padding:0px; margin:0px;'>
+
+            You will see pairs of <strong style="color:#3EA6CC;">Before</strong> and <strong style="color:coral">After</strong> image of an action.
+
+            <br>Your task is to describe the action with<font color="red"><strong> grammatical and precise instructions</strong></font> <!--so another human can reconstruct the table exactly like what you see.-->
+            <br><br>Use <font color="red"><strong>prepositions</strong></font> to describe spatial relations between objects. 
+            <div style="margin:8px auto; ">
+              <img src="https://s3.amazonaws.com/nusrls/tutorial/1+input+instructions.gif"/>
+            </div>
+        </p>
+
+
+        <div style='display: flex; justify-content: center;'>
+          <button type="button" id='start_button_2' class="ok_button"><strong>I Understand</strong></button>
+        </div>
+    </div>
+
+
+    <div id='instructions_splash_1' class="instructions_splash">
+        <p >
+            You will contribute to our research by <font color="red"><strong>instructing this robot to set up a dinner table step by step</strong></font>.
+            <div style="margin: auto; width: 80%;">
+              <img src="https://s3.amazonaws.com/nusrls/tutorial/00+meet+MICO.gif"/>
+            </div>
+            <br>We will first give you a three-minute tutorial of how to do that ;)
+        </p>
+
+        <div style='display: flex; justify-content: center;'>
+          <button type="button" id='start_button_1' class="ok_button"><strong>I Understand</strong></button>
+          <!--button type="button" id='start_button_9' class='ok_button'><strong>Skip All</strong></button-->
+        </div>
+    </div>
+
+
+
+
+
+    <!-- MAIN Page -->
+    <!-- box of images -->
+    <div class="row">
+      <div class="column">
+        <p class='instruction'>Before</p>
+        <img id="before_image_left" src="https://s3.amazonaws.com/nusrls/videos_before/before_9.png" alt="Before" style="width:100%">
+      </div>
+      <div class="column" style="width:15%; height: auto;">
+            <div>
+              <div id='containment-wrapper' style="width:100%; ">
+                <div id="before" style="z-index: 10;">
+                    <img id="before_image" src="https://s3.amazonaws.com/nusrls/videos_before/before_9.png"/>
+                </div>
+                <div id="after" style="z-index: 10;">
+                    <img id="after_image" src="https://s3.amazonaws.com/nusrls/videos_after/after_9.png"/>
+                </div>
+                <p class='instruction' id='instruction'>Before</p>
+            </div>
+
+            <img src="arrow.png" style="width:100%; padding-top: 180px;">
+          </div>
+      </div>
+      <div class="column">
+        <p class='instruction'>After</p>
+        <img id="after_image_right" src="https://s3.amazonaws.com/nusrls/videos_after/after_9.png" alt="After" style="width:100%">
+      </div>
+    </div>
+
+    <div id="input_box" style="display: table; margin: 0 auto; text-align: center;">
+
+        <div id="myProgress" style="width: 100%; background-color: #ddd;">
+            <div id="myBar" style="width: 1%; height: 10px; background-color: #4CAF50;"></div>
+        </div>
+
+        <input id="input_field" type="text" maxlength="100" name="enter" class="field" placeholder="Give a grammatical and precise instruction (less than 100 characters)" />
+
+        <div style="margin-top:10px">
+            <button type="button" id="previous_button">Previous</button>
+            <button type="button" id="update_button">Update</button>
+            <button type="button" id="next_button">Next</button>
+        </div>
+
+        <p id="no"> Sentence No.: 1 / 12 </p>
+        <img src="https://s3.amazonaws.com/nusrls/tutorial/cutlery.jpg" style="width:60%; padding-top: 10px;">
+    </div>
+
+    <!-- table for checking instructions before submission -->
+    <div id="finally" style="display: none;">
+
+      <div id="reminder" style="color: red; display: none;">
+          <h1>
+              To submit, please scroll down to check if every instruction is grammatical and precise.
+          </h1>
+      </div>
+
+        <div style="width:100%; padding-top: 20px; display: table;" >
+            <table id="history" align="left" border="5px" >
+                <col width="5%">
+                <col width="15%">
+                <col width="15%">
+                <col width="60%">
+                <tr>
+                    <th>No.</th>
+                    <th>Before</th>
+                    <th>After</th>
+                    <th contenteditable='true'>Instruction</th>
+                </tr>
+            </table>
+        </div>
+
+        <div id="note" style="color: red; visibility: hidden;">
+            <h1>
+                By pressing "Submit", I guarantee that the instructions are grammatical and precise.
+            </h1>
+            <h2>
+                You will not be paid if you write imcomplete sentences, such as "put fork" or "fork."
+            </h2>
+        </div>
+    </div>
+
+    <button type="button" id="submit_button" style="visibility: hidden;">Submit</button>
+
+</body>
+
+<script>
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// ~~~~~ Define instructions ~~~~~
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+function animateImages(){
+    // document.getElementById("test").html(count)
+    var before = document.getElementById("before")
+    var after = document.getElementById("after")
+    if (getComputedStyle(before).visibility == "visible"){
+        document.getElementById("instruction").innerHTML = "After"
+        before.style.visibility = "hidden"
+        after.style.visibility = "visible"
+    } else {
+        document.getElementById("instruction").innerHTML = "Before"
+        before.style.visibility = "visible"
+        after.style.visibility = "hidden"
+    }
+}
+
+function updateImage(){
+    // console.log("debug" + images[t])
+    // console.log("debug2" + images[t][0])
+    $("#before_image_preview_0").attr("src", images[t][0]);
+    $("#after_image_preview_0").attr("src", images[t][1]);
+    $("#before_image_preview").attr("src", images[t][0]);
+    $("#after_image_preview").attr("src", images[t][1]);
+    $("#before_image").attr("src", images[t][0]);
+    $("#after_image").attr("src", images[t][1]);
+    $("#before_image_left").attr("src", images[t][0]);
+    $("#after_image_right").attr("src", images[t][1]);
+    clearInterval(myTimer);
+    myTimer = setInterval(animateImages, 1000);
+    document.getElementById("no").innerHTML = "Sentence No.: "+(t+1)+" / "+image_count;
+}
+
+function updateTable(){
+
+    document.getElementById("history").innerHTML = "<col width=\"5%\"><col width=\"15%\"><col width=\"15%\"><col width=\"60%\"><tr><th>No.</th><th>Before</th><th>After</th><th>Instruction</th></tr>"
+
+    for (i=0; i<t; i++){
+        $('#history tr:last').after("<tr><th>"+(i+1)+"</th><th><img src="+images[i][0]+" width=100% height=auto/></th><th><img src="+images[i][1]+" width=100% height=auto/></th><th id='entry"+i+"' contenteditable='true'>"+dataobj['instruction'][i]+" <font color='gray'>(Click to revise)</font>"+"</th></tr>");
+        // console.log("added entry"+i)
+        table.rows[i+1].cells[3].onclick = function () {
+            // tableText(this);
+            if(this.innerHTML.includes(click_string)){
+                this.innerHTML = this.innerHTML.replace(click_string,"")
+            }
+        };
+    }
+
+    // for (i=0; i<t; i++){
+    //
+    // }
+}
+
+function tableText(tableCell) {
+    alert(tableCell.innerHTML);
+}
+
+function updateBar(){
+    document.getElementById("myBar").style.width = (t/image_count*100) + '%';
+}
+
+function update(){
+    dataobj['instruction'][t] = $('#input_field').val()
+    updateTable()
+}
+
+function nextTask(){
+
+    var input = $('#input_field').val()
+
+    t++;
+
+    if (input=="") {
+        input = "<font color=\"red\">Empty! Please re-enter by clicking 'Previous' button.</font>"
+        document.getElementById('next_button').style.visibility = 'hidden';
+        $('#input_field').val("!! You have just entered nothing, please go back to the previous image pair.");
+    } else {
+        document.getElementById('next_button').style.visibility = 'visible';
+
+        var i = 0;
+        for(i=0; i<t-1; i++){
+            var cell = document.getElementById('entry'+i).innerHTML.replace(click_string,"")
+            console.log("cell: "+cell)
+            console.log("saved: "+dataobj['instruction'][i])
+            if(!(cell==dataobj['instruction'][i])){
+                console.log("update")
+                dataobj['instruction'][i] = cell
+            }
+        }
+
+        // if the worker is writting new instructions
+        if (t > dataobj.instruction.length){
+
+            dataobj['stepNumber'].push(t)
+            dataobj['instruction'].push(input)
+            $('#input_field').val('');
+
+        // if the worker is revising previous instructions
+        } else {
+            dataobj['instruction'][t-1] = input
+            $('#input_field').val(dataobj['instruction'][t]);
+        }
+
+        console.log("-----------")
+        console.log(dataobj)
+        console.log("-----------")
+    }
+
+    // update image
+    if (t==1){
+        document.getElementById('previous_button').style.visibility = 'visible';
+        document.getElementById('finally').style.display = 'table';
+        updateImage()
+    // ready to check the instructions
+    } else if (t == image_count){
+        document.getElementById('submit_button').style.visibility = 'visible';
+        document.getElementById('note').style.visibility = 'visible';
+        document.getElementById('reminder').style.display = 'table';
+        document.getElementById('next_button').style.visibility = 'hidden';
+        document.getElementById('input_box').style.display = 'none';
+        updateBar()
+        updateTable()
+    } else {
+        updateImage()
+    }
+
+    updateBar()
+    updateTable()
+}
+
+function ramdomTask(){
+    var video_image_counts = {"table1":10, "table2":15, "table3":16, "table4":14, "table5":16}
+    // var video_image_counts = {"table1":10}
+    var video_names = Object.keys(video_image_counts)
+    video_name = video_names[Math.floor(Math.random() * video_names.length)]
+    var image_count = video_image_counts[video_name]
+
+    var images = []
+    var count;
+    var frefix = 'https://s3.amazonaws.com/nusrls/images_show/'
+    for(count = 1; count<image_count; count++){
+        if(!(video_name=='table4' && count==9)){
+            var pair = []
+            pair.push(frefix+video_name+'_'+count+'.jpg')
+            pair.push(frefix+video_name+'_'+(count+1)+'.jpg')
+            images.push(pair)
+        }
+    }
+    return images
+}
+
+function initializeTask(){
+    images = ramdomTask()
+    dataobj['videoName'] = video_name
+    image_count = images.length
+    updateBar()
+    updateImage()
+}
+
+// Enter pressed?
+$('#input_field').keypress(function(e) {
+    if(e.which == 10 || e.which == 13) {
+        nextTask()
+    }
+});
+
+$('#next_button').click(function() { nextTask() });
+
+$('#update_button').click(function() { update() });
+
+$('#previous_button').click(function() {
+
+    t--;
+    if (t==0) {
+        document.getElementById('previous_button').style.visibility = 'hidden'
+    }
+
+    $('#input_field').val(dataobj['instruction'][t]);
+
+    document.getElementById('next_button').style.visibility = 'visible';
+
+    updateBar()
+    updateImage()
+})
+
+$('#start_button_1').click(function() {
+    document.getElementById('instructions_splash_1').style.visibility = 'hidden'
+})
+
+$('#start_button_2').click(function() {
+    document.getElementById('instructions_splash_2').style.visibility = 'hidden'
+})
+
+$('#start_button_3').click(function() {
+    document.getElementById('instructions_splash_3').style.visibility = 'hidden'
+})
+
+$('#start_button_4').click(function() {
+    document.getElementById('instructions_splash_4').style.visibility = 'hidden'
+})
+
+$('#start_button_5').click(function() {
+    document.getElementById('instructions_splash_5').style.visibility = 'hidden'
+})
+
+$('#start_button_9').click(function() {
+    document.getElementById('instructions_splash_5').style.visibility = 'hidden'
+    document.getElementById('instructions_splash_4').style.visibility = 'hidden'
+    document.getElementById('instructions_splash_3').style.visibility = 'hidden'
+    document.getElementById('instructions_splash_2').style.visibility = 'hidden'
+    document.getElementById('instructions_splash_1').style.visibility = 'hidden'
+})
+
+$('#change_button').click(function() {
+    clearInterval(myTimer);
+    instructions = []
+    t = 0
+
+    dataobj = {}
+    dataobj['stepNumber'] = []
+    dataobj['instruction'] = []
+    initializeTask()
+})
+
+
+$('#check_button').click(function() {
+    var scrollingElement = (document.scrollingElement || document.body);
+    scrollingElement.scrollTop = scrollingElement.scrollHeight;
+
+    document.getElementById('note').style.color = '#3EA6CC'
+    document.getElementById("note").innerHTML = "<h1>Will this instruction leads to a table arrangement that is different from what you see? </h1>";
+
+    document.getElementById('submit_button').style.visibility = 'visible'
+    document.getElementById('check_button').style.visibility = 'hidden'
+});
+
+
+$('#submit_button').click(function() {
+
+    // for collecting updated instructions
+    var updated_instructions = [];
+    var i=0;
+    for(i=0; i<t; i++){
+        var new_instruction = document.getElementById('entry'+i).innerHTML.replace(click_string, "")
+        if(!(new_instruction === instruction[i])){
+            console.log(i+" changed: " + new_instruction);
+        }
+        updated_instructions[i] = new_instruction
+    }
+    console.log(instruction)
+    dataobj['instruction'] = updated_instructions
+
+    // for submitting to Amazon
+    submit()
+
+});
+
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// ~~~~~ for Submission ~~~~~
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+function submit() {
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // ~~~~~ Execute submission to Mechanical Turk servers ~~~~~
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Extract assignment data from the subject's URL
+
+    var current_url = window.location.href
+    var assignmentId = get_assignmentId_from_url(current_url)
+    var inSandboxMode = detect_sandbox_mode(current_url)
+    /////todo
+
+    var data_string = JSON.stringify(dataobj)
+    console.log("-----------")
+    console.log("-----------")
+    console.log("-----------")
+    console.log(data_string)
+
+    // Submit data via POST request
+    document.getElementById("assignmentId").value = assignmentId;
+    document.getElementById("submission_data").value = data_string;
+
+    var submit_url = "https://www.mturk.com/mturk/externalSubmit"
+
+    if (inSandboxMode == true) {
+        var submit_url = "https://workersandbox.mturk.com/mturk/externalSubmit"
+    } else if (inSandboxMode == false) {
+        var submit_url = "https://www.mturk.com/mturk/externalSubmit"
+    }
+    document.getElementById("MechanicalTurk_SubmissionForm").action = submit_url
+
+    try {
+        // ~~~~~ Uncomment the line below before you upload to mechanical turk ~~~~~
+        document.getElementById("MechanicalTurk_SubmissionForm").submit();
+        console.log('EXECUTED SUBMISSION TO TURK')
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+function _extract_url_string(url, key, defaultValue) {
+    var name = key
+    key = key.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regexS = "[\\?&]" + key + "=([^&#]*)";
+    var regex = new RegExp(regexS);
+    var results = regex.exec(url) || ["", defaultValue]
+
+    return results[1]
+}
+
+function get_assignmentId_from_url(url) {
+    var assignmentId = _extract_url_string(url, 'assignmentId', 'assignmentId_not_found')
+    console.log('assignmentId', assignmentId)
+
+    return assignmentId
+}
+
+function detect_sandbox_mode(url) {
+    var submitToURL = _extract_url_string(url, 'turkSubmitTo', 'https://www.mturk.com')
+    console.log('submittoURL', submitToURL)
+    try {
+        if (submitToURL.indexOf('workersandbox') != -1) {
+            var inSandboxMode = true
+        } else {
+            var inSandboxMode = false
+        }
+    } catch (error) {
+        console.log(error)
+        var inSandboxMode = false
+    }
+    return inSandboxMode
+}
+
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// ~~~~~ Initiate. Store the results in the variable 'dataobj' ~~~~~
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+var video_name = ""
+var images = []
+var image_count = 0
+var instructions = [];
+var t = 0
+var table = document.getElementById("history");
+var click_string = " <font color=\"gray\">(Click to revise)</font>";
+
+var dataobj = {}
+dataobj['stepNumber'] = []
+dataobj['instruction'] = []
+
+var myTimer = setInterval(animateImages, 1000);
+clearInterval(myTimer);
+
+initializeTask()
+
+</script>
+
+</html>

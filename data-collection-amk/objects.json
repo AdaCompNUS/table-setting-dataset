@@ -1,0 +1,21 @@
+{
+  "table_cloth": ["Table cloth", 0, 0, 0],
+  "bread_plate": ["Bread plate", 1, 2, 3],
+  "charger": ["Charger", 5, 6, 7],
+  "coffee": ["Coffee", 9, 10, 11],
+  "dinner_plate": ["Dinner plate", 13, 14, 15],
+  "napkin": ["Napkin", 17, 18, 19],
+  "water_glass": ["Water glass", 21, 22, 23],
+  "wine_glass": ["Wine glass (left)", 25, 26, 27],
+  "wine_glass_1": ["Wine glass (right)", 29, 30, 31],
+  "wine_glass_2": ["Wine glass (middle)", 33, 34, 35],
+
+  "butter_knife": ["Butter knife", 37, 38, 39],
+  "dessert_fork": ["Dessert fork", 41, 42, 43],
+  "dessert_spoon": ["Dessert spoon", 45, 46, 47],
+  "dinner_fork": ["Dinner fork", 49, 50, 51],
+  "dinner_knife": ["Dinner knife", 53, 54, 55],
+  "salad_fork": ["Salad fork", 57, 58, 59],
+  "salad_knife": ["Salad knife", 61, 62, 63],
+  "soup_spoon": ["Soup spoon", 65, 66, 67]
+}
