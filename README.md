@@ -24,12 +24,12 @@ See a [draft paper](https://github.com/AdaCompNUS/table-setting-dataset/blob/mas
 
 We show pairs of before-after images to humans and ask them to write down the instruction in English that describes the action that might have happened between the images, as shown in the screenshot below:
 
-![collect-instructions][figures/collect-instructions]
+![collect-instructions][figures/collect-instructions.png]
 
 
 ### The task of collecting action data
 
-![collect-actions][figures/collect-actions]
+![collect-actions][figures/collect-actions.png]
 
 ### The codes for collecting and downloading data
 
