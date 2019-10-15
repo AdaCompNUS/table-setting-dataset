@@ -24,12 +24,12 @@ See a [draft paper](https://github.com/AdaCompNUS/table-setting-dataset/blob/mas
 
 We show pairs of before-after images to humans and ask them to write down the instruction in English that describes the action that might have happened between the images, as shown in the screenshot below:
 
-![collect-instructions][figures/collect-instructions.png]
+![collect-instructions][https://user-images.githubusercontent.com/18410664/66796219-01f83800-eed5-11e9-81c9-5b1dc57cc8f1.png]
 
 
 ### The task of collecting action data
 
-![collect-actions][figures/collect-actions.png]
+![collect-actions][https://user-images.githubusercontent.com/18410664/66796218-01f83800-eed5-11e9-9051-c8490b64964e.png]
 
 ### The codes for collecting and downloading data
 
@@ -44,8 +44,30 @@ jupyter notebook
 
 Then go to `Uploader and Downloader.ipynb`. If the `print(sys.version)` output is 3.*, you can change the Kernel to 2.7 by clicking on the menu bar: Kernel > Change kernel > Python 2.
 
+Here are the sample collected data:
 
+![sample-data-pairs](https://user-images.githubusercontent.com/18410664/66796222-01f83800-eed5-11e9-95b4-1e8c340d0522.png)
 
+Place the dinner knife on the right side of the table cloth
+
+START triples:
+
+```
+[you place+1 dinner_knife+652815]
+[place+1 on+1 right_side+652817]
+[right_side+652817 related-to+2 table_cloth+652816] [related-to+2 is_pp yes]
+```
+
+Innerese (Semantic structure):
+```
+PLACE ( (you)
+        (
+            OBJECT (
+                (dinner_knife))
+            ON (
+            OF ( (right_side)
+                (table_cloth)))))
+```
 ---
 
 
