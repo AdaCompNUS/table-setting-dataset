@@ -51,7 +51,7 @@ You can perform the task yourself [here](https://nusrls.s3.amazonaws.com/HIT_giv
 The codes for collecting and downloading data are detailed in directory `data-collection-amk/``
 
 
-### Step 2 - Parse instruction data [TODO]
+### Step 2 - Parse instruction data [TODO: add descriptions of the parsers]
 
 Here is an example instruction:
 
@@ -79,7 +79,6 @@ PLACE ( (you)
 
 
 
-
 ### Step 3 - Collect action data
 
 We show images of a table and common cutleries used in table-setting. Then given a sequence of instructions, the human will drag and rotate the images to carry out the instruction, as shown in the image below:
@@ -92,11 +91,56 @@ You can perform the task yourself [here](https://nusrls.s3.amazonaws.com/HIT_set
 
 
 
+
 ### Step 4 - Synthesize image data in Unity
 
+To use the simulation world for generating image data, follow the below steps:
+
+* Install Unity and create a user name
+* Create a new Unity project named "Table Setting World"
+* Download the ["Table Setting Project" package](https://www.dropbox.com/s/9bnja2ynh4e7hql/Table%20Seeting%20Project.unitypackage?dl=0) and import into your "Table Setting World"
+* Download the [data]() for the project and unzip it in the root folder of the project
 
 
-We may amplify the image dataset by generating visual variations through the simulated environment.
+#### The image dataset
+
+In the unzipped data folder, you will see:
+
+* `all collected actions/`: there are two batches of collected human actions in csv files
+* `all generated images/`: there are correspondingly two batches of generated images, with name in the format of "HIT_***_config_***_*.png"
+* `all related instructions`: the files that relate the images to instructions. For each worker submission, there is:
+  * one json file of the instructions presented to the worker
+  * one image file of the collage of all images generated based on his actions
+  * one image file of the final table set by the worker
+* `locations/`: the initial configurations of the table, 10 for each video gives 50 different configurations in total
+* `input/`: to put the human actions csv files
+* `output/`: where new data will be generated
+
+
+#### The script for generating image
+
+In the "Table Setting Project" package, we mainly use the script `MakePictures.cs`. It synthesizes the sequences of images according to the recorded actions of human workers who used the drag-and-rotate web interface
+
+The script takes in all the csv files in "data/input/", reconfigure the table according to each csv file, and take a scrrenshot for each configuration of the table.
+
+Example input file name: HIT_34_configs_102_4.csv
+
+* It is the 34 submission by human workers
+* It starts with table configuration 102, which is the second configuration of video 1
+* It is the fifth (start with index 0) scene of the action sequence
+* Each row of the csv file corresponds to the location of one
+* The corresponding output file name is HIT_34_configs_102_4.png
+
+The input files are generated using the Jupyter notebook `Uploader and Downloader.ipynb` (the last part of the notebook)
+
+P.S. We may amplify the image dataset by generating visual variations in the simulated environment (lighting; the shape, texture, and materials of objects).
+
+
+#### The script for generating collage
+
+To better visualize the image and instruction data, there is a script for combining all images in one action sequence into a collage and creating an HTML page to display it along with the instructions presented to the worker as well as the final table set by the worker.
+
+That script for creating collage (another jupyter notebook) is in folder `data-collection-amk/image_data_collage/`
 
 
 ---
