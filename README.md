@@ -1,7 +1,7 @@
 # Table setting dataset
 
-> "Put the dinner fork on the right of the plate"
-> "Put the butter knife on top of the bread plate, pointing towards top right"
+> * "Put the dinner fork on the right of the plate"
+> * "Put the butter knife on top of the bread plate, pointing towards top right"
 
 If we want robots to assist humans in everyday housework and office work, we need them to be able to understand instructions like the above, which involves spatial descriptions of locations and orientations. To do so, we can build a neural network that predicts the most likely regions to put the target object. It's like the task of grounding spatial reference expressions, only that the network does not locate existing objects but imaged regions in the image.
 
@@ -17,16 +17,19 @@ See a [draft paper](https://github.com/AdaCompNUS/table-setting-dataset/blob/mas
 
 ---
 
-## Collect instruction data
+## Collect instruction and action data from Amazon Mechanical Turk
+
 
 ### The task of collecting instruction data
 
-We show pairs of before-after images to humans and ask them to write down the instruction in English that describes the action that might have happened between the images. For example,
+We show pairs of before-after images to humans and ask them to write down the instruction in English that describes the action that might have happened between the images, as shown in the screenshot below:
 
+![collect-instructions][figures/collect-instructions]
 
 
 ### The task of collecting action data
 
+![collect-actions][figures/collect-actions]
 
 ### The codes for collecting and downloading data
 
@@ -47,11 +50,7 @@ Then go to `Uploader and Downloader.ipynb`. If the `print(sys.version)` output i
 
 
 
-
-## Collect action data
-
-
-## Synthesize image data
+## Synthesize image data in Unity
 
 We may amplify the image dataset by generating visual variations through the simulated environment.
 
